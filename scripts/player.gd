@@ -19,6 +19,15 @@ var MAX_STAMINA = 100.0
 var stamina: float = MAX_STAMINA
 var is_sprinting: bool = false
 
+@onready var raycast = $RayCast3D
+
+var interact_handlers := {
+	"generator": _interact_generator,
+}
+
+func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
@@ -37,10 +46,10 @@ func _physics_process(delta: float) -> void:
 		abilityTimer_timeout()
 		
 	if Input.is_action_just_pressed("interact") and not usingAbility:
-		print("interact")
+		var collider = raycast.get_collider()
+		if collider is Area3D:
+			try_interact(collider)
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
@@ -52,6 +61,13 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
+func try_interact(collider: Area3D):
+	if not is_multiplayer_authority():
+		return
+	for group in interact_handlers.keys():
+		if collider.is_in_group(group):
+			interact_handlers[group].call(collider)
+			return
 
 func _input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
@@ -63,5 +79,8 @@ func _input(event: InputEvent) -> void:
 		pitch = clamp(pitch, deg_to_rad(-80), deg_to_rad(80))
 		camera.rotation.x = pitch
 		
+func _interact_generator(collider) -> void:
+	print("gen")
+	
 func abilityTimer_timeout():
 	usingAbility = false
