@@ -1,7 +1,8 @@
 extends Node
 
-func add_hitbox(hitbox, pos) -> void:
+func add_hitbox(hitbox, pos, hit_flag: Array) -> void:
 	var instance = hitbox.instantiate()
+	instance.hit_flag = hit_flag
 	$Hitboxes.add_child(instance)
 	instance.global_position = pos
 	
