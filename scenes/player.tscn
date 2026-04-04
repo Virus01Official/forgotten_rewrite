@@ -8,7 +8,7 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3vyb7"]
 
-[node name="player" type="CharacterBody3D" unique_id=633314722]
+[node name="player" type="CharacterBody3D" unique_id=633314722 groups=["players"]]
 script = ExtResource("1_3vyb7")
 hitboxes = ExtResource("2_qhqgy")
 

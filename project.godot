@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 CharData="*uid://b8bywwi02qweq"
+EmoteData="*uid://xclmxfd764hw"
 
 [display]
 
@@ -26,6 +27,7 @@ window/stretch/mode="canvas_items"
 [global_group]
 
 generator=""
+players=""
 
 [input]
 
