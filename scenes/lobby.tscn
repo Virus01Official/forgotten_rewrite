@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://duca3objkff2t"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_so6iy"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_o1atq"]
+sky_material = SubResource("ProceduralSkyMaterial_so6iy")
+
+[sub_resource type="Environment" id="Environment_5gu6x"]
+background_mode = 2
+sky = SubResource("Sky_o1atq")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_so6iy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_o1atq"]
+
+[node name="Lobby" type="Node3D" unique_id=941177251]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1596188203]
+environment = SubResource("Environment_5gu6x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1173377940]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2016647681]
+transform = Transform3D(11.763366, 0, 0, 0, 0.10077381, 0, 0, 0, 14.582792, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=301857732]
+shape = SubResource("BoxShape3D_so6iy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D" unique_id=255123894]
+mesh = SubResource("BoxMesh_o1atq")
