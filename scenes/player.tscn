@@ -27,3 +27,9 @@ transform = Transform3D(1, 0, 0, 0, -6.778779e-08, -0.9999997, 0, 1.5508038, -4.
 collision_mask = 2
 hit_from_inside = true
 collide_with_areas = true
+
+[node name="voicelines" type="AudioStreamPlayer" parent="." unique_id=2110022406]
+
+[node name="SFX" type="AudioStreamPlayer" parent="." unique_id=1274380537]
+
+[node name="Chase_Theme" type="AudioStreamPlayer" parent="." unique_id=423958925]
