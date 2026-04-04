@@ -1,0 +1,51 @@
+{
+  "id": "chance",
+  "display_name": "Chance",
+  "type": "survivor",
+  "stats": {
+    "health": 80,
+    "stamina": 100,
+    "walk_speed": 5.0,
+    "sprint_speed": 9.0
+  },
+  "abilities": [
+    {
+      "id": "ability1",
+      "name": "Lucky Draw",
+      "icon": "res://assets/textures/abilityTemplate.png",
+      "cooldown": 0.0,
+      "type": "luck_token",
+      "description": "50% chance to gain a luck token, 50% chance to gain weakness"
+    },
+    {
+      "id": "ability2",
+      "name": "Russian Roulette",
+      "icon": "res://assets/textures/abilityTemplate.png",
+      "cooldown": 0.0,
+      "type": "gun_shot",
+      "damage": 30,
+      "self_damage": 60,
+      "description": "33% chance to shoot killer, 33% chance to hurt yourself, 33% chance to misfire"
+    },
+    {
+      "id": "ability3",
+      "name": "Health Gamble",
+      "icon": "res://assets/textures/abilityTemplate.png",
+      "cooldown": 0.0,
+      "type": "health_gamble",
+      "min_health": 60,
+      "max_health": 300,
+      "requires_tokens": 1,
+      "description": "Randomize your max health (requires 1 luck token)"
+    },
+    {
+      "id": "ability4",
+      "name": "Reset",
+      "icon": "res://assets/textures/abilityTemplate.png",
+      "cooldown": 0.0,
+      "type": "reset",
+      "requires_tokens": 3,
+      "description": "Reset luck tokens and weakness (requires 3 tokens)"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+extends Node
+
+const SURVIVORS_DIR := "res://data/survivors/"
+const KILLERS_DIR   := "res://data/killers/"
+const SKINS_DIR     := "res://data/skins/"
+
+var survivors : Dictionary = {}   
+var killers   : Dictionary = {}   
+var skins     : Dictionary = {}  
+
+signal data_loaded
+
+
+func _ready() -> void:
+	_load_all()
+	emit_signal("data_loaded")
+
+func get_survivor(id: String) -> Dictionary:
+	return survivors.get(id, {})
+
+func get_killer(id: String) -> Dictionary:
+	return killers.get(id, {})
+
+func get_skin(id: String) -> Dictionary:
+	return skins.get(id, {})
+
+func get_skins_for_killer(killer_id: String) -> Array:
+	var result: Array = []
+	for skin in skins.values():
+		if skin.get("killer", "") == killer_id:
+			result.append(skin)
+	return result
+
+func get_skins_for_survivor(survivor_id: String) -> Array:
+	var result: Array = []
+	for skin in skins.values():
+		if skin.get("survivor", "") == survivor_id:
+			result.append(skin)
+	return result
+
+func _load_all() -> void:
+	survivors = _load_directory(SURVIVORS_DIR)
+	killers   = _load_directory(KILLERS_DIR)
+	skins     = _load_directory(SKINS_DIR)
+
+	print("[GameData] Loaded %d survivor(s), %d killer(s), %d skin(s)." % [
+		survivors.size(), killers.size(), skins.size()
+	])
+
+
+func _load_directory(dir_path: String) -> Dictionary:
+	var registry: Dictionary = {}
+	var dir := DirAccess.open(dir_path)
+
+	if dir == null:
+		push_warning("[GameData] Directory not found: %s" % dir_path)
+		return registry
+
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".json"):
+			var full_path := dir_path + file_name
+			var data := _parse_json_file(full_path)
+
+			if data.is_empty():
+				push_warning("[GameData] Skipping empty or invalid file: %s" % full_path)
+			elif not data.has("id"):
+				push_warning("[GameData] Missing 'id' field in: %s" % full_path)
+			else:
+				registry[data["id"]] = data
+
+		file_name = dir.get_next()
+
+	dir.list_dir_end()
+	return registry
+
+func _parse_json_file(path: String) -> Dictionary:
+	var file := FileAccess.open(path, FileAccess.READ)
+
+	if file == null:
+		push_error("[GameData] Could not open file: %s" % path)
+		return {}
+
+	var text    := file.get_as_text()
+	var parsed  = JSON.parse_string(text)
+
+	if parsed == null:
+		push_error("[GameData] JSON parse error in: %s" % path)
+		return {}
+
+	if parsed is not Dictionary:
+		push_error("[GameData] Expected a JSON object (Dictionary) in: %s" % path)
+		return {}
+
+	return parsed
+
+func reload_file(path: String) -> void:
+	var data := _parse_json_file(path)
+	if data.is_empty() or not data.has("id"):
+		push_error("[GameData] reload_file: invalid data in %s" % path)
+		return
+
+	match data.get("type", ""):
+		"survivor": survivors[data["id"]] = data
+		"killer":   killers[data["id"]]   = data
+		"skin":     skins[data["id"]]     = data
+		_:          push_warning("[GameData] reload_file: unknown type in %s" % path)
+
+	print("[GameData] Reloaded: %s (%s)" % [data["id"], data.get("type", "?")])

@@ -17,8 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SurvivorsData="*uid://6tb08pailrlm"
-KillerData="*uid://csgmwfv04c22b"
+CharData="*uid://b8bywwi02qweq"
 
 [display]
 
