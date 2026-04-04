@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+@export var hitboxes: PackedScene
 
 var SPEED = 5.0
 const MOUSE_SENSITIVITY = 0.003
@@ -49,6 +50,15 @@ func _physics_process(delta: float) -> void:
 		var collider = raycast.get_collider()
 		if collider is Area3D:
 			try_interact(collider)
+			
+	if Input.is_action_just_pressed("Attack") and not usingAbility:
+		usingAbility = true
+		for i in range(5):
+			var spawn_pos = global_position + -transform.basis.z * 1.0
+			spawn_pos.y -= 0.9 
+			$"..".add_hitbox(hitboxes, spawn_pos)
+			await get_tree().create_timer(0.05).timeout
+		usingAbility = false
 
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()

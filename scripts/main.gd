@@ -1,10 +1,9 @@
 extends Node
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func add_hitbox(hitbox, pos) -> void:
+	var instance = hitbox.instantiate()
+	$Hitboxes.add_child(instance)
+	instance.global_position = pos
+	
+	await get_tree().create_timer(0.5).timeout
+	instance.queue_free()

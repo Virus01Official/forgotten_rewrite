@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://rercrifwq0o1" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://drb8j8f1rc4nl" path="res://scripts/ability_component.gd" id="2_g2els"]
+[ext_resource type="PackedScene" uid="uid://qo6absgsr8yf" path="res://scenes/other/hitboxes.tscn" id="2_qhqgy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
 
@@ -9,6 +10,7 @@
 
 [node name="player" type="CharacterBody3D" unique_id=633314722]
 script = ExtResource("1_3vyb7")
+hitboxes = ExtResource("2_qhqgy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=99104246]
 shape = SubResource("CapsuleShape3D_u8vuu")
