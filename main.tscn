@@ -23,3 +23,6 @@ wait_time = 30.0
 one_shot = true
 
 [node name="Hitboxes" type="Node3D" parent="." unique_id=1343583836]
+
+[node name="Ambience" type="AudioStreamPlayer" parent="." unique_id=2110327834]
+bus = &"Ambience"
