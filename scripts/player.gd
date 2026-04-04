@@ -13,8 +13,11 @@ var is_Killer = false
 @onready var Ability_Component = $Ability_Component
 
 var usingAbility = false
-var equippedAbilityOne = "Test"
-var equippedAbilityTwo = "Test"
+var equipped_survivor = "Tester"
+var equipped_killer = "Test"
+
+var equipped_ability1 = ""
+var equipped_ability2 = ""
 
 var pitch: float = 0.0
 var cam = false

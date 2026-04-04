@@ -9,3 +9,5 @@ func _activate_ability(ability: String) -> void:
 			spawn_pos.y -= 0.9
 			$"../..".add_hitbox($"..".hitboxes, spawn_pos)
 			await get_tree().create_timer(0.05).timeout
+	else:
+		print(ability)

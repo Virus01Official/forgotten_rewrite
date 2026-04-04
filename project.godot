@@ -15,6 +15,10 @@ run/main_scene="uid://778admjak12g"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SurvivorsData="*uid://6tb08pailrlm"
+
 [display]
 
 window/stretch/mode="canvas_items"
