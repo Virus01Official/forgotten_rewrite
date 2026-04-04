@@ -9,6 +9,7 @@ var malice = 1
 var is_Killer = false
 
 @onready var camera: Camera3D = $Camera3D
+@onready var first_person_cam: Camera3D = $FirstPersonCam
 @onready var Ability_Component = $Ability_Component
 
 var usingAbility = false
@@ -16,6 +17,7 @@ var equippedAbilityOne = "Test"
 var equippedAbilityTwo = "Test"
 
 var pitch: float = 0.0
+var cam = false
 
 var MAX_STAMINA = 100.0
 var stamina: float = MAX_STAMINA
@@ -73,6 +75,13 @@ func _physics_process(delta: float) -> void:
 		var collider = raycast.get_collider()
 		if collider is Area3D:
 			try_interact(collider)
+			
+	if Input.is_action_just_pressed("ChangeCam"):
+		cam = not cam
+		if cam:
+			$FirstPersonCam.current = true
+		else:
+			camera.current = true
 
 	if Input.is_action_just_pressed("Attack") and not usingAbility and not _is_on_cooldown("Attack"):
 		_start_cooldown("Attack", COOLDOWN_ATTACK)
@@ -107,6 +116,7 @@ func _input(event: InputEvent) -> void:
 		pitch -= event.relative.y * MOUSE_SENSITIVITY
 		pitch = clamp(pitch, deg_to_rad(-80), deg_to_rad(80))
 		camera.rotation.x = pitch
+		first_person_cam.rotation.x = pitch
 
 func _interact_generator(_collider) -> void:
 	print("gen")
