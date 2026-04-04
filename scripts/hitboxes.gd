@@ -11,8 +11,6 @@ func _on_body_entered(body: Node3D) -> void:
 			hit_flag.append(true) 
 			body.health -= 25
 			_turn_green()
-		else:
-			print("ded")
 
 func _turn_green() -> void:
 	var mesh = $CollisionShape3D/MeshInstance3D

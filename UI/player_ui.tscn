@@ -1,5 +1,13 @@
 [gd_scene format=3 uid="uid://bp0hs4qgh4lf"]
 
+[ext_resource type="FontFile" uid="uid://diu4olylqsotv" path="res://assets/fonts/Roboto/static/Roboto-Bold.ttf" id="1_c8xti"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_nplvd"]
+font = ExtResource("1_c8xti")
+font_size = 35
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
 [node name="player_ui" type="Control" unique_id=1532252855]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +15,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="SpectatorStuff" type="Control" parent="." unique_id=2023826759]
+anchors_preset = 0
+offset_right = 1150.0
+offset_bottom = 644.0
+
+[node name="Label" type="Label" parent="SpectatorStuff" unique_id=561018065]
+layout_mode = 0
+offset_top = -2.0
+offset_right = 1154.0
+offset_bottom = 40.0
+text = "Intermission: 30"
+label_settings = SubResource("LabelSettings_nplvd")
+horizontal_alignment = 1
+vertical_alignment = 1
