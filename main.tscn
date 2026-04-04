@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://778admjak12g"]
 
+[ext_resource type="Script" uid="uid://crd3nlqjto24m" path="res://scripts/main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://duca3objkff2t" path="res://scenes/lobby.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dbdv1gh2o2r2g" path="res://scenes/player.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://bf4m527oonhqy" path="res://scenes/other/generator.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node" unique_id=814599977]
+script = ExtResource("1_1bvp3")
 
 [node name="Lobby" parent="." unique_id=941177251 instance=ExtResource("1_ig7tw")]
 
@@ -15,3 +17,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1848295, 0)
 transform = Transform3D(-2.8276256e-08, 0, 2.2219806, 0, 0.7596355, 0, -0.6468854, 0, -9.712586e-08, 0, 0.42656898, 5.3557405)
 
 [node name="LMS" type="AudioStreamPlayer" parent="." unique_id=419310731]
+
+[node name="Intermission" type="Timer" parent="." unique_id=1830027606]
+wait_time = 30.0
+one_shot = true
