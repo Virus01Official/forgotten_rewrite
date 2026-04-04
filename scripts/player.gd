@@ -5,6 +5,9 @@ extends CharacterBody3D
 var SPEED = 5.0
 const MOUSE_SENSITIVITY = 0.003
 
+var malice = 1
+var is_Killer = false
+
 @onready var camera: Camera3D = $Camera3D
 @onready var Ability_Component = $Ability_Component
 
@@ -105,7 +108,7 @@ func _input(event: InputEvent) -> void:
 		pitch = clamp(pitch, deg_to_rad(-80), deg_to_rad(80))
 		camera.rotation.x = pitch
 
-func _interact_generator(collider) -> void:
+func _interact_generator(_collider) -> void:
 	print("gen")
 
 func abilityTimer_timeout():
