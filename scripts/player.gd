@@ -2,11 +2,14 @@ extends CharacterBody3D
 
 @export var hitboxes: PackedScene
 
-var SPEED = 5.0
+const WALK_SPEED = 5.0
+const SPRINT_SPEED = 9.0
 const MOUSE_SENSITIVITY = 0.003
 
 var malice = 1
 var is_Killer = false
+
+var current_speed = WALK_SPEED
 
 @onready var camera: Camera3D = $Camera3D
 @onready var first_person_cam: Camera3D = $FirstPersonCam
@@ -19,12 +22,21 @@ var equipped_killer = "Test"
 var equipped_ability1 = ""
 var equipped_ability2 = ""
 
+var coins = 0
+
 var pitch: float = 0.0
 var cam = false
 
 var MAX_STAMINA = 100.0
+const STAMINA_DRAIN = 25.0   
+const STAMINA_RECOVER = 15.0 
+const STAMINA_RECOVER_EXHAUSTED = 5 
+
 var stamina: float = MAX_STAMINA
 var is_sprinting: bool = false
+
+var exhausted: bool = false       
+var sprint_needs_reset: bool = false 
 
 @onready var raycast = $RayCast3D
 
@@ -66,6 +78,11 @@ func _physics_process(delta: float) -> void:
 		usingAbility = true
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()
+		
+	if Input.is_action_pressed("Sprint") and not exhausted and not sprint_needs_reset:
+		is_sprinting = true
+	else:
+		is_sprinting = false
 
 	if Input.is_action_just_pressed("Ability2") and not usingAbility and not _is_on_cooldown("Ability2"):
 		Ability_Component._activate_ability("Ability2")
@@ -92,15 +109,26 @@ func _physics_process(delta: float) -> void:
 		Ability_Component._activate_ability("slash")
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()
+		
+	if is_sprinting:
+		current_speed = SPRINT_SPEED
+		stamina = max(stamina - STAMINA_DRAIN * delta, 0.0)
+	else:
+		if exhausted:
+			stamina = min(stamina + STAMINA_RECOVER_EXHAUSTED * delta, MAX_STAMINA)
+			if stamina >= MAX_STAMINA * 0.25:
+				exhausted = false
+		else:
+			stamina = min(stamina + STAMINA_RECOVER * delta, MAX_STAMINA)
 
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = direction.x * current_speed
+		velocity.z = direction.z * current_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, WALK_SPEED)
+		velocity.z = move_toward(velocity.z, 0, WALK_SPEED)
 	move_and_slide()
 
 func try_interact(collider: Area3D):

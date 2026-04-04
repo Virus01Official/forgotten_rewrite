@@ -10,7 +10,6 @@ var skins     : Dictionary = {}
 
 signal data_loaded
 
-
 func _ready() -> void:
 	_load_all()
 	emit_signal("data_loaded")
@@ -46,7 +45,6 @@ func _load_all() -> void:
 	print("[GameData] Loaded %d survivor(s), %d killer(s), %d skin(s)." % [
 		survivors.size(), killers.size(), skins.size()
 	])
-
 
 func _load_directory(dir_path: String) -> Dictionary:
 	var registry: Dictionary = {}
