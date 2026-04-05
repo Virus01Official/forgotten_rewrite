@@ -43,6 +43,9 @@ func start_round():
 		if player.malice > highest_malice:
 			highest_malice = player.malice
 			most_malicious_player = player
+		
+		player.get_node('player_ui').get_node('SpectatorStuff').visible = false
+		player.get_node('player_ui').get_node('GameStuff').visible = false
 	
 	if most_malicious_player != null:
 		print("Most malicious player is: ", most_malicious_player.name, 

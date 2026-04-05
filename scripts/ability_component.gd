@@ -12,3 +12,7 @@ func _activate_ability(ability: String) -> void:
 			await get_tree().create_timer(0.05).timeout
 	else:
 		print(ability)
+		
+func get_ability_survivor(ability: String, survivor: String):
+	var ab = CharData.get_survivor(survivor).get(ability, "ability1")
+	return ab

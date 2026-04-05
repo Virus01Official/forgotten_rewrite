@@ -16,7 +16,7 @@ var current_speed = WALK_SPEED
 @onready var Ability_Component = $Ability_Component
 
 var usingAbility = false
-var equipped_survivor = "Tester"
+var equipped_survivor = "chance"
 var equipped_killer = "Test"
 
 var equipped_ability1 = ""
@@ -71,10 +71,12 @@ func _start_cooldown(action: String, duration: float) -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		
+		equipped_ability1 = Ability_Component.get_ability_survivor("ability1", equipped_survivor)
 
-	if Input.is_action_just_pressed("Ability1") and not usingAbility and not _is_on_cooldown("Ability1"):
-		Ability_Component._activate_ability("Ability1")
-		_start_cooldown("Ability1", COOLDOWN_ABILITY1)
+	if Input.is_action_just_pressed("Ability1") and not usingAbility and not _is_on_cooldown(equipped_ability1):
+		Ability_Component._activate_ability(equipped_ability1)
+		_start_cooldown(equipped_ability1, COOLDOWN_ABILITY1)
 		usingAbility = true
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()
@@ -103,7 +105,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			camera.current = true
 
-	if Input.is_action_just_pressed("Attack") and not usingAbility and not _is_on_cooldown("Attack"):
+	if Input.is_action_just_pressed("Attack") and not usingAbility and not _is_on_cooldown("Attack") and is_Killer:
 		_start_cooldown("Attack", COOLDOWN_ATTACK)
 		usingAbility = true
 		Ability_Component._activate_ability("slash")

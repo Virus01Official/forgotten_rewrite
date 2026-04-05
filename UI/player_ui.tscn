@@ -30,3 +30,17 @@ text = "Intermission: 30"
 label_settings = SubResource("LabelSettings_nplvd")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Shop" type="Panel" parent="SpectatorStuff" unique_id=1797649470]
+visible = false
+layout_mode = 0
+offset_left = 121.0
+offset_top = 71.0
+offset_right = 1020.0
+offset_bottom = 591.0
+
+[node name="GameStuff" type="Control" parent="." unique_id=1666905990]
+visible = false
+anchors_preset = 0
+offset_right = 1153.0
+offset_bottom = 650.0

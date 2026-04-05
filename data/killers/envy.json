@@ -9,7 +9,7 @@
 	"sprint_speed": 9.0
   },
   "music": {
-	"ambient": "res://assets/music/vanity.mp3",
+	"lms": "res://assets/music/vanity.mp3",
 	"chase": "res://assets/music/Chase.mp3"
   },
   "voicelines": {
@@ -26,7 +26,7 @@
 	  "id": "ability1",
 	  "name": "Void Grasp",
 	  "icon": "res://assets/textures/abilityTemplate.png",
-	  "cooldown": 0.0,
+	  "cooldown": 0.3,
 	  "type": "raycast_attack",
 	  "damage": 50
 	},
