@@ -5,6 +5,7 @@ extends Node
 @onready var player = $".."
 
 var coin_flip_sfx = preload("res://assets/sfx/coin_flip.mp3")
+var gunDestroyed = false
 
 func _activate_ability(ability: String) -> void:
 	if ability == "slash":
@@ -25,8 +26,7 @@ func _activate_ability(ability: String) -> void:
 			$"..".tokens += 1
 		else:
 			$"..".weakness += 1
-	elif ability == "gun_shot":
-		if $"..".tokens > 0:
+	elif ability == "gun_shot" and $"..".tokens > 0 and not gunDestroyed:
 			var tokens_used = $"..".tokens
 			$"..".tokens = 0
 			
@@ -54,6 +54,7 @@ func _activate_ability(ability: String) -> void:
 				)
 				await get_tree().create_timer(0.05).timeout
 			elif random < explode_chance:
+				gunDestroyed = true
 				var hit_flag: Array = []
 				var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
 				spawn_pos.y -= 0.9
@@ -73,6 +74,9 @@ func _activate_ability(ability: String) -> void:
 				print(str(player.health))
 			else:
 				player.maxhealth = randi_range(min_health, max_health)
+	elif ability == "reset" and player.tokens == 3:
+		gunDestroyed = false
+		player.weakness = 0
 	else:
 		print(ability)
 		

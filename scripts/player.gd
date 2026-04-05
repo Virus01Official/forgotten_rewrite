@@ -55,12 +55,14 @@ var interact_handlers := {
 const COOLDOWN_ABILITY1 = 3.0
 const COOLDOWN_ABILITY2 = 5.0
 const COOLDOWN_ABILITY3 = 5.0
+const COOLDOWN_ABILITY4 = 5.0
 const COOLDOWN_ATTACK   = 2.0
 
 var cooldowns := {
 	"Ability1": 0.0,
 	"Ability2": 0.0,
 	"Ability3": 0.0,
+	"Ability4": 0.0,
 	"Attack":   0.0,
 }
 
@@ -124,6 +126,16 @@ func _physics_process(delta: float) -> void:
 		var ability_type = equipped_ability3.get("type", "")
 		var ability_name = equipped_ability3.get("name", "Ability3")
 		var cooldown_duration = equipped_ability3.get("cooldown", COOLDOWN_ABILITY3)
+		Ability_Component._activate_ability(ability_type)
+		_start_cooldown(ability_name, cooldown_duration)
+		usingAbility = true
+		await get_tree().create_timer(0.5).timeout
+		abilityTimer_timeout()
+		
+	if Input.is_action_just_pressed("Ability4") and not usingAbility and not equipped_ability4.is_empty() and not _is_on_cooldown(equipped_ability4.get("name", "Ability4")):
+		var ability_type = equipped_ability4.get("type", "")
+		var ability_name = equipped_ability4.get("name", "Ability4")
+		var cooldown_duration = equipped_ability4.get("cooldown", COOLDOWN_ABILITY4)
 		Ability_Component._activate_ability(ability_type)
 		_start_cooldown(ability_name, cooldown_duration)
 		usingAbility = true
