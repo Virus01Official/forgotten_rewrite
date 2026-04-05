@@ -84,7 +84,7 @@ func _activate_ability(ability: String) -> void:
 			else:
 				player.maxhealth = randi_range(min_health, max_health)
 	
-	#hat fix
+	# hat fix
 	elif ability == "reset" and player.tokens == 3:
 		gunDestroyed = false
 		player.weakness = 0

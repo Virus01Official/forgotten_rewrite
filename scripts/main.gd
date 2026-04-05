@@ -61,5 +61,10 @@ func start_round():
 		print("Most malicious player is: ", most_malicious_player.name, 
 			  " with malice: ", highest_malice)
 
+func get_lms(killer: String):
+	var killer_data = CharData.get_killer(killer)
+	var music = killer_data.get("music", {})
+	return music.get("lms", "Default")
+
 func _on_intermission_timeout() -> void:
 	start_round()
