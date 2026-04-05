@@ -2,9 +2,10 @@ extends Node
 
 var intermission_started := false
 
-func add_hitbox(hitbox, pos, hit_flag: Array) -> void:
+func add_hitbox(hitbox, pos, hit_flag: Array, damage) -> void:
 	var instance = hitbox.instantiate()
 	instance.hit_flag = hit_flag
+	instance.damage = damage
 	$Hitboxes.add_child(instance)
 	instance.global_position = pos
 	
@@ -34,3 +35,18 @@ func get_players():
 func start_intermission() -> void:
 	$Intermission.start(30)
 	
+func start_round():
+	var highest_malice = -INF
+	var most_malicious_player = null
+	
+	for player in get_players():
+		if player.malice > highest_malice:
+			highest_malice = player.malice
+			most_malicious_player = player
+	
+	if most_malicious_player != null:
+		print("Most malicious player is: ", most_malicious_player.name, 
+			  " with malice: ", highest_malice)
+
+func _on_intermission_timeout() -> void:
+	start_round()

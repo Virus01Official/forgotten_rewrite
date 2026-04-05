@@ -1,6 +1,7 @@
 extends Area3D
 
 var hit_flag: Array = []
+var damage = 25
 
 func _on_body_entered(body: Node3D) -> void:
 	if hit_flag.size() > 0:
@@ -9,7 +10,7 @@ func _on_body_entered(body: Node3D) -> void:
 	if "isKiller" in body and not body.isKiller:
 		if body.health > 0:
 			hit_flag.append(true) 
-			body.health -= 25
+			body.health -= damage
 			_turn_green()
 
 func _turn_green() -> void:

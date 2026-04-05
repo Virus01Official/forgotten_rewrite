@@ -30,3 +30,5 @@ bus = &"Ambience"
 
 [node name="CharacterBody3D" parent="." unique_id=1834531523 instance=ExtResource("5_lquwl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2436476, 1.2592936, 3.7121303)
+
+[connection signal="timeout" from="Intermission" to="." method="_on_intermission_timeout"]
