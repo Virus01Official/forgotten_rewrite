@@ -11,6 +11,8 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_c8xti"]
 font = ExtResource("1_c8xti")
 font_size = 39
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
 
 [node name="player_ui" type="Control" unique_id=1532252855]
 layout_mode = 3
@@ -44,7 +46,6 @@ offset_right = 1020.0
 offset_bottom = 591.0
 
 [node name="GameStuff" type="Control" parent="." unique_id=1666905990]
-visible = false
 anchors_preset = 0
 offset_right = 1153.0
 offset_bottom = 650.0
@@ -59,6 +60,21 @@ offset_bottom = 582.0
 visible = false
 layout_mode = 2
 text = "Weakness: 1"
+label_settings = SubResource("LabelSettings_c8xti")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Notifications" type="VBoxContainer" parent="GameStuff" unique_id=326347885]
+visible = false
+layout_mode = 0
+offset_top = 1.0
+offset_right = 1155.0
+offset_bottom = 650.0
+
+[node name="Label" type="Label" parent="GameStuff/Notifications" unique_id=973034805]
+visible = false
+layout_mode = 2
+text = "I don't fucking know: +35 coins +38 EXP"
 label_settings = SubResource("LabelSettings_c8xti")
 horizontal_alignment = 1
 vertical_alignment = 1

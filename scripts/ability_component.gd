@@ -17,6 +17,8 @@ func _activate_ability(ability: String) -> void:
 				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0), $".."
 			)
 			await get_tree().create_timer(0.05).timeout
+			
+	# coin flip
 	elif ability == "luck_token":
 		var sfx_player = $"../SFX"
 		sfx_player.stream = coin_flip_sfx
@@ -26,7 +28,10 @@ func _activate_ability(ability: String) -> void:
 			$"..".tokens += 1
 		else:
 			$"..".weakness += 1
-	elif ability == "gun_shot" and $"..".tokens > 0 and not gunDestroyed:
+			
+	# shoot
+	elif ability == "gun_shot":
+		if $"..".tokens > 0 and not gunDestroyed:
 			var tokens_used = $"..".tokens
 			$"..".tokens = 0
 			
@@ -62,6 +67,10 @@ func _activate_ability(ability: String) -> void:
 					$"..".hitboxes, spawn_pos, hit_flag, 15 * tokens_used, "survivor", Vector3(1.0,1.0,1.0), $".."
 				)
 				await get_tree().create_timer(0.05).timeout
+		else:
+			print("not enough tokens or gun is broken")
+			
+	#reroll
 	elif ability == "health_gamble":
 		if $"..".tokens > 0:
 			var ability_data = get_ability_survivor("ability3", $"..".equipped_survivor)
@@ -74,6 +83,8 @@ func _activate_ability(ability: String) -> void:
 				print(str(player.health))
 			else:
 				player.maxhealth = randi_range(min_health, max_health)
+	
+	#hat fix
 	elif ability == "reset" and player.tokens == 3:
 		gunDestroyed = false
 		player.weakness = 0
