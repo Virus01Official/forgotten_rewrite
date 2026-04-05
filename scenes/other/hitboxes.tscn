@@ -13,6 +13,7 @@ albedo_color = Color(1, 0, 0, 0.4627451)
 material = SubResource("StandardMaterial3D_o0303")
 
 [node name="Hitboxes" type="Area3D" unique_id=455056158]
+transform = Transform3D(0.23218068, 0, 0, 0, 0.13854249, 0, 0, 0, 5.558429, 0, 0, 0)
 script = ExtResource("1_5ksfh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1992979931]

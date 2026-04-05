@@ -40,6 +40,9 @@ var sprint_needs_reset: bool = false
 
 @onready var raycast = $RayCast3D
 
+var weakness = 0
+var tokens = 0
+
 var interact_handlers := {
 	"generator": _interact_generator,
 }
@@ -73,22 +76,29 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 		
 		equipped_ability1 = Ability_Component.get_ability_survivor("ability1", equipped_survivor)
-
-	if Input.is_action_just_pressed("Ability1") and not usingAbility and not _is_on_cooldown(equipped_ability1):
-		Ability_Component._activate_ability(equipped_ability1)
-		_start_cooldown(equipped_ability1, COOLDOWN_ABILITY1)
-		usingAbility = true
-		await get_tree().create_timer(0.5).timeout
-		abilityTimer_timeout()
+		equipped_ability2 = Ability_Component.get_ability_survivor("ability2", equipped_survivor)
 		
 	if Input.is_action_pressed("Sprint") and not exhausted and not sprint_needs_reset:
 		is_sprinting = true
 	else:
 		is_sprinting = false
 
-	if Input.is_action_just_pressed("Ability2") and not usingAbility and not _is_on_cooldown("Ability2"):
-		Ability_Component._activate_ability("Ability2")
-		_start_cooldown("Ability2", COOLDOWN_ABILITY2)
+	if Input.is_action_just_pressed("Ability1") and not usingAbility and not _is_on_cooldown(equipped_ability1.get("name", "Ability1")):
+		var ability_type = equipped_ability1.get("type", "")
+		var ability_name = equipped_ability1.get("name", "Ability1")
+		var cooldown_duration = equipped_ability1.get("cooldown", COOLDOWN_ABILITY1)
+		Ability_Component._activate_ability(ability_type)
+		_start_cooldown(ability_name, cooldown_duration)
+		usingAbility = true
+		await get_tree().create_timer(0.5).timeout
+		abilityTimer_timeout()
+
+	if Input.is_action_just_pressed("Ability2") and not usingAbility and not _is_on_cooldown(equipped_ability2.get("name", "Ability2")):
+		var ability_type = equipped_ability2.get("type", "")
+		var ability_name = equipped_ability2.get("name", "Ability2")
+		var cooldown_duration = equipped_ability2.get("cooldown", COOLDOWN_ABILITY2)
+		Ability_Component._activate_ability(ability_type)
+		_start_cooldown(ability_name, cooldown_duration)
 		usingAbility = true
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()

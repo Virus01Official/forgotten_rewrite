@@ -2,12 +2,25 @@ extends Node
 
 var intermission_started := false
 
-func add_hitbox(hitbox, pos, hit_flag: Array, damage) -> void:
+func add_hitbox(hitbox, pos, hit_flag: Array, damage, Hittarget: String, size: Vector3, source_player = null) -> void:
 	var instance = hitbox.instantiate()
 	instance.hit_flag = hit_flag
+	if Hittarget == 'survivor':
+		instance.hit_killer = false
+	else:
+		instance.hit_killer = true
 	instance.damage = damage
+	
+	var collision_shape = instance.get_node("CollisionShape3D")
+	if collision_shape and collision_shape.shape:
+		collision_shape.shape = collision_shape.shape.duplicate()
+		collision_shape.shape.size = size
+	
 	$Hitboxes.add_child(instance)
 	instance.global_position = pos
+	
+	if source_player:
+		instance.global_rotation = source_player.global_rotation
 	
 	await get_tree().create_timer(0.5).timeout
 	instance.queue_free()
