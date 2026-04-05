@@ -19,13 +19,18 @@ var usingAbility = false
 var equipped_survivor = "chance"
 var equipped_killer = "Test"
 
-var equipped_ability1 = ""
-var equipped_ability2 = ""
+var equipped_ability1 = {}
+var equipped_ability2 = {}
+var equipped_ability3 = {}
+var equipped_ability4 = {}
 
 var coins = 0
 
 var pitch: float = 0.0
 var cam = false
+
+var health = 100
+var maxhealth = 100
 
 var MAX_STAMINA = 100.0
 const STAMINA_DRAIN = 25.0   
@@ -49,11 +54,13 @@ var interact_handlers := {
 
 const COOLDOWN_ABILITY1 = 3.0
 const COOLDOWN_ABILITY2 = 5.0
+const COOLDOWN_ABILITY3 = 5.0
 const COOLDOWN_ATTACK   = 2.0
 
 var cooldowns := {
 	"Ability1": 0.0,
 	"Ability2": 0.0,
+	"Ability3": 0.0,
 	"Attack":   0.0,
 }
 
@@ -75,13 +82,23 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 		
-		equipped_ability1 = Ability_Component.get_ability_survivor("ability1", equipped_survivor)
-		equipped_ability2 = Ability_Component.get_ability_survivor("ability2", equipped_survivor)
+	equipped_ability1 = Ability_Component.get_ability_survivor("ability1", equipped_survivor)
+	equipped_ability2 = Ability_Component.get_ability_survivor("ability2", equipped_survivor)
+		
+	if Ability_Component.has_ability("ability3", equipped_survivor):
+		equipped_ability3 = Ability_Component.get_ability_survivor("ability3", equipped_survivor)
+		
+	if Ability_Component.has_ability("ability4", equipped_survivor):
+		equipped_ability4 = Ability_Component.get_ability_survivor("ability4", equipped_survivor)
 		
 	if Input.is_action_pressed("Sprint") and not exhausted and not sprint_needs_reset:
 		is_sprinting = true
 	else:
 		is_sprinting = false
+		
+	if weakness > 0:
+		$player_ui/GameStuff/VBoxContainer/Label.visible = true
+		$player_ui/GameStuff/VBoxContainer/Label.text = "Weakness: " + str(weakness)
 
 	if Input.is_action_just_pressed("Ability1") and not usingAbility and not _is_on_cooldown(equipped_ability1.get("name", "Ability1")):
 		var ability_type = equipped_ability1.get("type", "")
@@ -97,6 +114,16 @@ func _physics_process(delta: float) -> void:
 		var ability_type = equipped_ability2.get("type", "")
 		var ability_name = equipped_ability2.get("name", "Ability2")
 		var cooldown_duration = equipped_ability2.get("cooldown", COOLDOWN_ABILITY2)
+		Ability_Component._activate_ability(ability_type)
+		_start_cooldown(ability_name, cooldown_duration)
+		usingAbility = true
+		await get_tree().create_timer(0.5).timeout
+		abilityTimer_timeout()
+		
+	if Input.is_action_just_pressed("Ability3") and not usingAbility and not equipped_ability3.is_empty() and not _is_on_cooldown(equipped_ability3.get("name", "Ability3")):
+		var ability_type = equipped_ability3.get("type", "")
+		var ability_name = equipped_ability3.get("name", "Ability3")
+		var cooldown_duration = equipped_ability3.get("cooldown", COOLDOWN_ABILITY3)
 		Ability_Component._activate_ability(ability_type)
 		_start_cooldown(ability_name, cooldown_duration)
 		usingAbility = true

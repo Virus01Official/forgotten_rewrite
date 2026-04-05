@@ -56,6 +56,7 @@ offset_right = 328.0
 offset_bottom = 582.0
 
 [node name="Label" type="Label" parent="GameStuff/VBoxContainer" unique_id=46518401]
+visible = false
 layout_mode = 2
 text = "Weakness: 1"
 label_settings = SubResource("LabelSettings_c8xti")

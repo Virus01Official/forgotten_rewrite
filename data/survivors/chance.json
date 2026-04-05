@@ -34,7 +34,7 @@
 	  "cooldown": 0.0,
 	  "type": "health_gamble",
 	  "min_health": 60,
-	  "max_health": 300,
+	  "max_health": 130,
 	  "requires_tokens": 1,
 	  "description": "Randomize your max health (requires 1 luck token)"
 	},

@@ -11,10 +11,7 @@ func add_hitbox(hitbox, pos, hit_flag: Array, damage, Hittarget: String, size: V
 		instance.hit_killer = true
 	instance.damage = damage
 	
-	var collision_shape = instance.get_node("CollisionShape3D")
-	if collision_shape and collision_shape.shape:
-		collision_shape.shape = collision_shape.shape.duplicate()
-		collision_shape.shape.size = size
+	instance.scale = size
 	
 	$Hitboxes.add_child(instance)
 	instance.global_position = pos
