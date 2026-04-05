@@ -19,14 +19,15 @@ func _activate_ability(ability: String) -> void:
 		else:
 			$"..".weakness += 1
 	elif ability == "gun_shot":
-		var hit_flag: Array = []
-		var spawn_pos = $"..".global_position + $"..".transform.basis.y * 1.0
-		spawn_pos -= $"..".transform.basis.z * 4.0
-		spawn_pos.y -= 0.9
-		$"../..".add_hitbox(
-			$"..".hitboxes, spawn_pos, hit_flag, 25, "killer", Vector3(1.0,1.0,1.0), $".."
-			)
-		await get_tree().create_timer(0.05).timeout
+		if $"..".tokens > 0:
+			var hit_flag: Array = []
+			var spawn_pos = $"..".global_position + $"..".transform.basis.y * 1.0
+			spawn_pos -= $"..".transform.basis.z * 4.0
+			spawn_pos.y -= 0.9
+			$"../..".add_hitbox(
+				$"..".hitboxes, spawn_pos, hit_flag, 25, "killer", Vector3(1.0,1.0,1.0), $".."
+				)
+			await get_tree().create_timer(0.05).timeout
 	else:
 		print(ability)
 		
