@@ -65,7 +65,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Notifications" type="VBoxContainer" parent="GameStuff" unique_id=326347885]
-visible = false
 layout_mode = 0
 offset_top = 1.0
 offset_right = 1155.0

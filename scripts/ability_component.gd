@@ -88,18 +88,79 @@ func _activate_ability(ability: String) -> void:
 	elif ability == "reset" and player.tokens == 3:
 		gunDestroyed = false
 		player.weakness = 0
+		
+	# mouse attack
+	elif ability == "mouse_attack":
+		var camera = get_viewport().get_camera_3d()
+		if not camera:
+			return
+
+		var mouse_pos = get_viewport().get_mouse_position()
+		var ray_origin = camera.project_ray_origin(mouse_pos)
+		var ray_dir = camera.project_ray_normal(mouse_pos)
+
+		var space = $"..".get_world_3d().direct_space_state
+		var query = PhysicsRayQueryParameters3D.create(
+			ray_origin,
+			ray_origin + ray_dir * 100.0
+		)
+		query.exclude = [$"..".get_rid()]  
+
+		var result = space.intersect_ray(query)
+
+		var target_pos: Vector3
+		if result:
+			target_pos = result.position
+		else:
+			target_pos = ray_origin + ray_dir * 50.0
+
+		_launch_mouse_projectile(target_pos)
+		
 	else:
 		print(ability)
-		
-func get_ability_survivor(ability_slot: String, survivor: String) -> Dictionary:
-	var survivor_data = CharData.get_survivor(survivor)
-	var abilities: Array = survivor_data.get("abilities", [])
-	for ab in abilities:
-		if ab.get("id") == ability_slot:
-			return ab
-	push_warning("[AbilityComponent] Ability slot '%s' not found for survivor '%s'" % [ability_slot, survivor])
-	return {}
 	
+func _launch_mouse_projectile(target_pos: Vector3) -> void:
+	var start_pos = $"..".global_position
+	start_pos.y -= 0.9  
+
+	var direction = (target_pos - start_pos).normalized()
+	var speed = 20.0         
+	var max_distance = 40.0
+	var min_distance = 1.5  
+	var projectile_pos = start_pos
+	var travelled = 0.0
+
+	while travelled < max_distance:
+		var step = speed * get_physics_process_delta_time()
+		var next_pos = projectile_pos + direction * step
+
+		var space = $"..".get_world_3d().direct_space_state
+		var query = PhysicsRayQueryParameters3D.create(projectile_pos, next_pos)
+		query.exclude = [$"..".get_rid()]
+		var result = space.intersect_ray(query)
+
+		if result and travelled >= min_distance: 
+			_spawn_explosion(result.position)
+			return
+
+		projectile_pos = next_pos
+		travelled += step
+		await get_tree().physics_frame
+
+	_spawn_explosion(projectile_pos)
+
+func _spawn_explosion(pos: Vector3) -> void:
+	var hit_flag: Array = []
+	$"../..".add_hitbox(
+		$"..".hitboxes,
+		pos,
+		hit_flag,
+		35,         
+		"survivor",
+		Vector3(3.0, 3.0, 3.0),  
+		$".."
+	)
+
 func has_ability(ability_slot: String, survivor: String) -> bool:
 	var survivor_data = CharData.get_survivor(survivor)
 	var abilities: Array = survivor_data.get("abilities", [])
@@ -108,6 +169,20 @@ func has_ability(ability_slot: String, survivor: String) -> bool:
 			return true
 	return false
 
-func get_killer_ability(ability: String, killer: String):
-	var ab = CharData.get_killer(killer).get(ability, "ability1")
-	return ab
+func get_ability_survivor(ability_slot: String, survivor: String) -> Dictionary:
+	var survivor_data = CharData.get_survivor(survivor)
+	var abilities: Array = survivor_data.get("abilities", [])
+	for ab in abilities:
+		if ab.get("id") == ability_slot:
+			return ab
+	push_warning("[AbilityComponent] Ability slot '%s' not found for survivor '%s'" % [ability_slot, survivor])
+	return {}
+
+func get_killer_ability(ability_slot: String, killer: String):
+	var killer_data = CharData.get_killer(killer)
+	var abilities: Array = killer_data.get("abilities", [])
+	for ab in abilities:
+		if ab.get("id") == ability_slot:
+			return ab
+	push_warning("[AbilityComponent] Ability slot '%s' not found for killer '%s'" % [ability_slot, killer])
+	return {}

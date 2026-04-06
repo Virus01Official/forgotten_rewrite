@@ -60,6 +60,14 @@ func start_round():
 	if most_malicious_player != null:
 		print("Most malicious player is: ", most_malicious_player.name, 
 			  " with malice: ", highest_malice)
+			
+func assign_model(_player):
+	pass
+
+func start_lms(killer):
+	$LMS.stream = get_lms(killer)
+	AudioServer.set_bus_volume_db(1, 0)
+	$LMS.play()
 
 func get_lms(killer: String):
 	var killer_data = CharData.get_killer(killer)

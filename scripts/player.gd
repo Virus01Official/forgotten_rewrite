@@ -7,7 +7,7 @@ const SPRINT_SPEED = 9.0
 const MOUSE_SENSITIVITY = 0.003
 
 var malice = 1
-var is_Killer = false
+var is_Killer = true
 
 var current_speed = WALK_SPEED
 
@@ -17,7 +17,7 @@ var current_speed = WALK_SPEED
 
 var usingAbility = false
 var equipped_survivor = "chance"
-var equipped_killer = "Test"
+var equipped_killer = "envy"
 
 var equipped_ability1 = {}
 var equipped_ability2 = {}
@@ -52,7 +52,7 @@ var interact_handlers := {
 	"generator": _interact_generator,
 }
 
-const COOLDOWN_ABILITY1 = 3.0
+const COOLDOWN_ABILITY1 = 15.0
 const COOLDOWN_ABILITY2 = 5.0
 const COOLDOWN_ABILITY3 = 5.0
 const COOLDOWN_ABILITY4 = 5.0
@@ -68,6 +68,7 @@ var cooldowns := {
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	_refresh_abilities()
 
 func _process(delta: float) -> void:
 	for key in cooldowns:
@@ -80,18 +81,25 @@ func _is_on_cooldown(action: String) -> bool:
 func _start_cooldown(action: String, duration: float) -> void:
 	cooldowns[action] = duration
 
+func _refresh_abilities() -> void:
+	if is_Killer:
+		equipped_ability1 = Ability_Component.get_killer_ability("ability1", equipped_killer)
+		equipped_ability2 = Ability_Component.get_killer_ability("ability2", equipped_killer)
+		if Ability_Component.has_ability("ability3", equipped_killer):
+			equipped_ability3 = Ability_Component.get_killer_ability("ability3", equipped_killer)
+		if Ability_Component.has_ability("ability4", equipped_killer):
+			equipped_ability4 = Ability_Component.get_killer_ability("ability4", equipped_killer)
+	else:
+		equipped_ability1 = Ability_Component.get_ability_survivor("ability1", equipped_survivor)
+		equipped_ability2 = Ability_Component.get_ability_survivor("ability2", equipped_survivor)
+		if Ability_Component.has_ability("ability3", equipped_survivor):
+			equipped_ability3 = Ability_Component.get_ability_survivor("ability3", equipped_survivor)
+		if Ability_Component.has_ability("ability4", equipped_survivor):
+			equipped_ability4 = Ability_Component.get_ability_survivor("ability4", equipped_survivor)
+			
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-		
-	equipped_ability1 = Ability_Component.get_ability_survivor("ability1", equipped_survivor)
-	equipped_ability2 = Ability_Component.get_ability_survivor("ability2", equipped_survivor)
-		
-	if Ability_Component.has_ability("ability3", equipped_survivor):
-		equipped_ability3 = Ability_Component.get_ability_survivor("ability3", equipped_survivor)
-		
-	if Ability_Component.has_ability("ability4", equipped_survivor):
-		equipped_ability4 = Ability_Component.get_ability_survivor("ability4", equipped_survivor)
 		
 	if Input.is_action_pressed("Sprint") and not exhausted and not sprint_needs_reset:
 		is_sprinting = true
@@ -112,7 +120,7 @@ func _physics_process(delta: float) -> void:
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()
 
-	if Input.is_action_just_pressed("Ability2") and not usingAbility and not _is_on_cooldown(equipped_ability2.get("name", "Ability2")):
+	if Input.is_action_just_pressed("Ability2") and not usingAbility and not _is_on_cooldown(equipped_ability1.get("name", "Ability2")):
 		var ability_type = equipped_ability2.get("type", "")
 		var ability_name = equipped_ability2.get("name", "Ability2")
 		var cooldown_duration = equipped_ability2.get("cooldown", COOLDOWN_ABILITY2)
@@ -122,7 +130,7 @@ func _physics_process(delta: float) -> void:
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()
 		
-	if Input.is_action_just_pressed("Ability3") and not usingAbility and not equipped_ability3.is_empty() and not _is_on_cooldown(equipped_ability3.get("name", "Ability3")):
+	if Input.is_action_just_pressed("Ability3") and not usingAbility and not equipped_ability3.is_empty() and not _is_on_cooldown(equipped_ability1.get("name", "Ability3")):
 		var ability_type = equipped_ability3.get("type", "")
 		var ability_name = equipped_ability3.get("name", "Ability3")
 		var cooldown_duration = equipped_ability3.get("cooldown", COOLDOWN_ABILITY3)
@@ -132,7 +140,7 @@ func _physics_process(delta: float) -> void:
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()
 		
-	if Input.is_action_just_pressed("Ability4") and not usingAbility and not equipped_ability4.is_empty() and not _is_on_cooldown(equipped_ability4.get("name", "Ability4")):
+	if Input.is_action_just_pressed("Ability4") and not usingAbility and not equipped_ability4.is_empty() and not _is_on_cooldown(equipped_ability1.get("name", "Ability4")):
 		var ability_type = equipped_ability4.get("type", "")
 		var ability_name = equipped_ability4.get("name", "Ability4")
 		var cooldown_duration = equipped_ability4.get("cooldown", COOLDOWN_ABILITY4)

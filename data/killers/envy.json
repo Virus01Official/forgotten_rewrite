@@ -26,8 +26,8 @@
 	  "id": "ability1",
 	  "name": "Void Grasp",
 	  "icon": "res://assets/textures/abilityTemplate.png",
-	  "cooldown": 0.3,
-	  "type": "raycast_attack",
+	  "cooldown": 15.0,
+	  "type": "mouse_attack",
 	  "damage": 50
 	},
 	{
