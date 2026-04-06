@@ -7,7 +7,7 @@ const SPRINT_SPEED = 9.0
 const MOUSE_SENSITIVITY = 0.003
 
 var malice = 1
-var is_Killer = true
+var is_Killer = false
 
 var current_speed = WALK_SPEED
 

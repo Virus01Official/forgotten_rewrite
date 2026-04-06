@@ -5,6 +5,9 @@ extends Node
 @onready var player = $".."
 
 var coin_flip_sfx = preload("res://assets/sfx/coin_flip.mp3")
+var shotSFX = preload("res://assets/sfx/shot.mp3")
+var nothingSFX = preload("res://assets/sfx/do_nothing.mp3")
+var explodeSFX = preload("res://assets/sfx/test.ogg")
 var gunDestroyed = false
 
 func _activate_ability(ability: String) -> void:
@@ -26,7 +29,7 @@ func _activate_ability(ability: String) -> void:
 		var random = randf()
 		if random < 0.75 and $"..".tokens < 3:
 			$"..".tokens += 1
-		else:
+		elif random > 0.75:
 			$"..".weakness += 1
 			
 	# shoot
@@ -57,6 +60,8 @@ func _activate_ability(ability: String) -> void:
 				$"../..".add_hitbox(
 					$"..".hitboxes, spawn_pos, hit_flag, 25 * tokens_used, "killer", Vector3(0.5,0.25,5.558), $".."
 				)
+				$"../SFX".stream = shotSFX
+				$"../SFX".play()
 				await get_tree().create_timer(0.05).timeout
 			elif random < explode_chance:
 				gunDestroyed = true
@@ -66,7 +71,12 @@ func _activate_ability(ability: String) -> void:
 				$"../..".add_hitbox(
 					$"..".hitboxes, spawn_pos, hit_flag, 15 * tokens_used, "survivor", Vector3(1.0,1.0,1.0), $".."
 				)
+				$"../SFX".stream = explodeSFX
+				$"../SFX".play()
 				await get_tree().create_timer(0.05).timeout
+			else:
+				$"../SFX".stream = nothingSFX
+				$"../SFX".play()
 		else:
 			print("not enough tokens or gun is broken")
 			
