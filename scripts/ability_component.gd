@@ -42,6 +42,8 @@ func _activate_ability(ability: String) -> void:
 			var shoot_chance: float
 			var explode_chance: float
 			
+			$"..".current_speed = 0
+			
 			if tokens_used == 1:
 				shoot_chance = 0.15
 				explode_chance = 0.25  
@@ -51,6 +53,9 @@ func _activate_ability(ability: String) -> void:
 			else: 
 				shoot_chance = 0.70
 				explode_chance = 0.78  
+				
+			
+			await get_tree().create_timer(0.8).timeout
 			
 			if random < shoot_chance:
 				var hit_flag: Array = []
@@ -69,8 +74,12 @@ func _activate_ability(ability: String) -> void:
 				var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
 				spawn_pos.y -= 0.9
 				$"../..".add_hitbox(
-					$"..".hitboxes, spawn_pos, hit_flag, 15 * tokens_used, "survivor", Vector3(1.0,1.0,1.0), $".."
+					$"..".hitboxes, spawn_pos, hit_flag, 15 * tokens_used, "killer", Vector3(1.0,1.0,1.0), $".."
 				)
+				if $"..".weakness < 1:
+					$"..".health -= 25 
+				else:
+					$"..".health -= 25 * $"..".weakness
 				$"../SFX".stream = explodeSFX
 				$"../SFX".play()
 				await get_tree().create_timer(0.05).timeout
@@ -79,6 +88,8 @@ func _activate_ability(ability: String) -> void:
 				$"../SFX".play()
 		else:
 			print("not enough tokens or gun is broken")
+			
+		$"..".current_speed = $"..".WALK_SPEED
 			
 	#reroll
 	elif ability == "health_gamble":

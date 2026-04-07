@@ -19,6 +19,8 @@ var usingAbility = false
 var equipped_survivor = "chance"
 var equipped_killer = "envy"
 
+var stunned = false
+
 var equipped_ability1 = {}
 var equipped_ability2 = {}
 var equipped_ability3 = {}
@@ -109,6 +111,8 @@ func _physics_process(delta: float) -> void:
 	if weakness > 0:
 		$player_ui/GameStuff/VBoxContainer/Label.visible = true
 		$player_ui/GameStuff/VBoxContainer/Label.text = "Weakness: " + str(weakness)
+		
+	$player_ui/GameStuff/Health.value = health
 
 	if Input.is_action_just_pressed("Ability1") and not usingAbility and not _is_on_cooldown(equipped_ability1.get("name", "Ability1")):
 		var ability_type = equipped_ability1.get("type", "")

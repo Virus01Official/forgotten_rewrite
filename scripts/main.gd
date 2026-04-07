@@ -5,10 +5,12 @@ var intermission_started := false
 func add_hitbox(hitbox, pos, hit_flag: Array, damage, Hittarget: String, size: Vector3, source_player = null) -> void:
 	var instance = hitbox.instantiate()
 	instance.hit_flag = hit_flag
+	
 	if Hittarget == 'survivor':
 		instance.hit_killer = false
 	else:
 		instance.hit_killer = true
+		
 	instance.damage = damage
 	
 	instance.scale = size

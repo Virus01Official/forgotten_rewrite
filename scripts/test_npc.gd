@@ -7,6 +7,8 @@ const JUMP_VELOCITY = 4.5
 var isKiller = true
 var health = 100
 
+var stunned = false
+
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

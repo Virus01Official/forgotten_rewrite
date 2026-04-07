@@ -7,7 +7,7 @@
   "price": 0,
   "limited": true,
   "unlocks": {
-    "model": ["res://scenes/killers/envy_virus.tscn"],
-    "intro": ["res://assets/voicelines/envy/skins/virus/virus_intro.mp3"]
+	"model": ["res://scenes/killers/envy_virus.tscn"],
+	"intro": ["res://assets/voicelines/envy/skins/virus/virus_intro.mp3"]
   }
 }
