@@ -23,6 +23,8 @@ func _activate_ability(ability: String) -> void:
 			
 	# coin flip
 	elif ability == "luck_token":
+		await get_tree().create_timer(0.5).timeout
+		
 		var sfx_player = $"../SFX"
 		sfx_player.stream = coin_flip_sfx
 		sfx_player.play()
@@ -134,8 +136,15 @@ func _activate_ability(ability: String) -> void:
 			target_pos = result.position
 		else:
 			target_pos = ray_origin + ray_dir * 50.0
+			
+		$"..".current_speed = 0
+			
+		
+		await get_tree().create_timer(0.8).timeout
 
 		_launch_mouse_projectile(target_pos)
+		
+		$"..".current_speed = $"..".WALK_SPEED
 		
 	else:
 		print(ability)
