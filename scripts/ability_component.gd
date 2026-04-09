@@ -10,6 +10,11 @@ var nothingSFX = preload("res://assets/sfx/do_nothing.mp3")
 var explodeSFX = preload("res://assets/sfx/test.ogg")
 var gunDestroyed = false
 
+var _dash_active := false
+var _dash_timer := 0.0
+var _dash_speed := 0.0
+var _dash_tween: Tween
+
 func _activate_ability(ability: String) -> void:
 	if ability == "slash":
 		var hit_flag: Array = []
@@ -145,7 +150,46 @@ func _activate_ability(ability: String) -> void:
 		_launch_mouse_projectile(target_pos)
 		
 		$"..".current_speed = $"..".WALK_SPEED
-		
+	elif ability == "void_dash":
+		if _dash_active:
+			return
+
+		var ability_data = get_killer_ability("ability2", $"..".equipped_killer)
+		var dash_speed: float = ability_data.get("speed", 30.0)
+		var dash_damage: int = ability_data.get("damage", 40)
+
+		_dash_active = true
+		$"..".current_speed = 0
+
+		var hit_flag: Array = []  
+
+		while Input.is_action_pressed("Ability2"):
+			var delta = get_physics_process_delta_time()
+
+			var forward = -$"..".transform.basis.z
+			forward.y = 0
+			forward = forward.normalized()
+
+			$"..".velocity.x = forward.x * dash_speed
+			$"..".velocity.z = forward.z * dash_speed
+			$"..".move_and_slide()
+
+			hit_flag.append($"..".global_position)  
+			$"../..".add_hitbox(
+				$"..".hitboxes,
+				$"..".global_position,
+				hit_flag,          
+				dash_damage,
+				"survivor",
+				Vector3(1.2, 1.2, 1.2),
+				$".."
+			)
+
+			await get_tree().physics_frame
+
+		_dash_active = false
+		$"..".current_speed = $"..".WALK_SPEED
+		$"..".usingAbility = false
 	else:
 		print(ability)
 	
