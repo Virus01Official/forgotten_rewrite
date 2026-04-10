@@ -11,9 +11,9 @@ var explodeSFX = preload("res://assets/sfx/test.ogg")
 var gunDestroyed = false
 
 var _dash_active := false
-var _dash_timer := 0.0
-var _dash_speed := 0.0
-var _dash_tween: Tween
+#var _dash_timer := 0.0
+#var _dash_speed := 0.0
+#var _dash_tween: Tween
 
 func _activate_ability(ability: String) -> void:
 	if ability == "slash":
@@ -150,6 +150,7 @@ func _activate_ability(ability: String) -> void:
 		_launch_mouse_projectile(target_pos)
 		
 		$"..".current_speed = $"..".WALK_SPEED
+		
 	elif ability == "void_dash":
 		if _dash_active:
 			return
@@ -164,7 +165,7 @@ func _activate_ability(ability: String) -> void:
 		var hit_flag: Array = []  
 
 		while Input.is_action_pressed("Ability2"):
-			var delta = get_physics_process_delta_time()
+			var _delta = get_physics_process_delta_time()
 
 			var forward = -$"..".transform.basis.z
 			forward.y = 0
@@ -190,6 +191,17 @@ func _activate_ability(ability: String) -> void:
 		_dash_active = false
 		$"..".current_speed = $"..".WALK_SPEED
 		$"..".usingAbility = false
+		
+	elif ability == "sword":
+		var hit_flag: Array = []
+		for i in range(5):
+			var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
+			spawn_pos.y -= 0.9
+			$"../..".add_hitbox(
+				$"..".hitboxes, spawn_pos, hit_flag, 25, "killer", Vector3(1.0,1.0,1.0), $".."
+			)
+			await get_tree().create_timer(0.05).timeout
+		
 	else:
 		print(ability)
 	

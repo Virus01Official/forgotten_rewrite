@@ -1,0 +1,31 @@
+{
+  "id": "swordman",
+  "display_name": "Swordmam",
+  "type": "survivor",
+  "stats": {
+	"health": 100,
+	"stamina": 100,
+	"walk_speed": 5.0,
+	"sprint_speed": 9.0
+  },
+  "abilities": [
+	{
+	  "id": "ability1",
+	  "name": "Sword",
+	  "icon": "res://assets/textures/abilityTemplate.png",
+	  "cooldown": 20,
+	  "type": "sword",
+	  "description": "Swordman slashes his sword stunning the killer"
+	},
+	{
+	  "id": "ability2",
+	  "name": "Chicken",
+	  "icon": "res://assets/textures/abilityTemplate.png",
+	  "cooldown": 60.0,
+	  "type": "Chicken",
+	  "heal": 50,
+      "uses": 2,
+	  "description": "swordman eats his chicken, healing 50 HP"
+	}
+  ]
+}
