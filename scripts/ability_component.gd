@@ -355,6 +355,21 @@ func _activate_ability(ability: String) -> void:
 		$"..".apply_effect("invisibility", 1)
 		$"..".usingAbility = false 
 		
+	elif ability == "yixi_grab":
+		$"..".current_speed = 0
+		
+		var hit_flag: Array = []
+		
+		var spawn_pos = $"..".global_position
+		spawn_pos.y -= 0.9
+		$"../..".add_hitbox(
+			$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(2.0,1.0,2.0), slash_hit, $".."
+		)
+		await get_tree().create_timer(0.05).timeout
+		
+		$"..".current_speed = $"..".WALK_SPEED
+		$"..".usingAbility = false 
+		
 	elif ability == "ritual":
 		print("placing ritual")
 		

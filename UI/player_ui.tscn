@@ -104,14 +104,15 @@ offset_bottom = 650.0
 
 [node name="Health" type="ProgressBar" parent="GameStuff" unique_id=1203356740]
 layout_mode = 0
-offset_left = 858.0
+offset_left = 1.0
 offset_top = 568.0
-offset_right = 1149.0
+offset_right = 292.0
 offset_bottom = 595.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_c8xti")
 show_percentage = false
 
 [node name="Oath" type="ProgressBar" parent="GameStuff" unique_id=1097091710]
+visible = false
 layout_mode = 0
 offset_top = 94.0
 offset_right = 21.0
@@ -121,3 +122,10 @@ max_value = 3.0
 step = 1.0
 fill_mode = 3
 show_percentage = false
+
+[node name="AbilitiesStuff" type="VBoxContainer" parent="GameStuff" unique_id=1503361799]
+layout_mode = 0
+offset_left = 750.0
+offset_top = 532.0
+offset_right = 1153.0
+offset_bottom = 645.0
