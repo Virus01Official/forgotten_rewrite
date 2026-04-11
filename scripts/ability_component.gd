@@ -355,6 +355,9 @@ func _activate_ability(ability: String) -> void:
 		$"..".apply_effect("invisibility", 1)
 		$"..".usingAbility = false 
 		
+	elif ability == "ritual":
+		print("placing ritual")
+		
 	else:
 		print(ability)
 	

@@ -132,6 +132,7 @@ func _physics_process(delta: float) -> void:
 		$player_ui/GameStuff/VBoxContainer/Label.text = "Weakness: " + str(weakness)
 		
 	$player_ui/GameStuff/Health.value = health
+	$player_ui/GameStuff/Oath.value = oath
 
 	if Input.is_action_just_pressed("Ability1") and not usingAbility and not _is_on_cooldown(equipped_ability1.get("name", "Ability1")):
 		var ability_type = equipped_ability1.get("type", "")

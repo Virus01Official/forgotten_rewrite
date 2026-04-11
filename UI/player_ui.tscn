@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bp0hs4qgh4lf"]
 
 [ext_resource type="FontFile" uid="uid://diu4olylqsotv" path="res://assets/fonts/Roboto/static/Roboto-Bold.ttf" id="1_c8xti"]
+[ext_resource type="Texture2D" uid="uid://d1qj5l8ttlohn" path="res://icon.svg" id="2_nplvd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nplvd"]
 font = ExtResource("1_c8xti")
@@ -20,6 +21,17 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="Gradient" id="Gradient_nplvd"]
+colors = PackedColorArray(0.72156864, 0, 1, 1, 0.49019608, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kwigr"]
+gradient = SubResource("Gradient_nplvd")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b8q8m"]
+texture = SubResource("GradientTexture2D_kwigr")
 
 [node name="player_ui" type="Control" unique_id=1532252855]
 layout_mode = 3
@@ -49,8 +61,21 @@ visible = false
 layout_mode = 0
 offset_left = 121.0
 offset_top = 71.0
-offset_right = 1020.0
+offset_right = 1049.0
 offset_bottom = 591.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SpectatorStuff/Shop" unique_id=1308762642]
+layout_mode = 0
+offset_right = 928.0
+offset_bottom = 519.0
+
+[node name="GridContainer" type="GridContainer" parent="SpectatorStuff/Shop/ScrollContainer" unique_id=507912189]
+layout_mode = 2
+columns = 7
+
+[node name="TextureRect" type="TextureRect" parent="SpectatorStuff/Shop/ScrollContainer/GridContainer" unique_id=352580213]
+layout_mode = 2
+texture = ExtResource("2_nplvd")
 
 [node name="GameStuff" type="Control" parent="." unique_id=1666905990]
 anchors_preset = 0
@@ -84,4 +109,15 @@ offset_top = 568.0
 offset_right = 1149.0
 offset_bottom = 595.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_c8xti")
+show_percentage = false
+
+[node name="Oath" type="ProgressBar" parent="GameStuff" unique_id=1097091710]
+layout_mode = 0
+offset_top = 94.0
+offset_right = 21.0
+offset_bottom = 469.0
+theme_override_styles/fill = SubResource("StyleBoxTexture_b8q8m")
+max_value = 3.0
+step = 1.0
+fill_mode = 3
 show_percentage = false
