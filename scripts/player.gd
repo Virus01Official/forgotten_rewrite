@@ -211,7 +211,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			stamina = min(stamina + STAMINA_RECOVER * delta, MAX_STAMINA)
 
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * current_speed

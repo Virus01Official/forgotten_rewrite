@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://bg2chmdsjyk0v"]
+
+[ext_resource type="FontFile" uid="uid://diu4olylqsotv" path="res://assets/fonts/Roboto/static/Roboto-Bold.ttf" id="1_8li27"]
+[ext_resource type="Script" uid="uid://nk0sx8wqd7hv" path="res://scripts/tetris.gd" id="1_jbimy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pjmmk"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_deo47"]
+font = ExtResource("1_8li27")
+font_size = 35
+
+[sub_resource type="LabelSettings" id="LabelSettings_jbimy"]
+font = ExtResource("1_8li27")
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_b1ev3"]
+font = ExtResource("1_8li27")
+font_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deo47"]
+bg_color = Color(0.099985994, 0.09998601, 0.099985965, 1)
+
+[node name="tetris" type="Node2D" unique_id=2082571]
+script = ExtResource("1_jbimy")
+
+[node name="Panel" type="Panel" parent="." unique_id=798834045]
+offset_right = 1152.0
+offset_bottom = 650.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pjmmk")
+
+[node name="Label" type="Label" parent="." unique_id=355711166]
+offset_left = 866.0
+offset_top = 2.0
+offset_right = 1152.0
+offset_bottom = 44.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_deo47")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="." unique_id=906735286]
+offset_left = 866.0
+offset_top = 121.0
+offset_right = 1152.0
+offset_bottom = 163.0
+text = "Next:"
+label_settings = SubResource("LabelSettings_deo47")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=1380149147]
+offset_left = -2.0
+offset_right = 284.0
+offset_bottom = 42.0
+text = "Keybinds:"
+label_settings = SubResource("LabelSettings_jbimy")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="." unique_id=1527107871]
+offset_top = 44.0
+offset_right = 286.0
+offset_bottom = 86.0
+text = "arrows, r, space"
+label_settings = SubResource("LabelSettings_b1ev3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel2" type="Panel" parent="." unique_id=588843695]
+offset_left = 286.0
+offset_right = 864.0
+offset_bottom = 648.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_deo47")
+
+[node name="TetrisTheme" type="AudioStreamPlayer2D" parent="." unique_id=635564822]
+bus = &"Tetris"
