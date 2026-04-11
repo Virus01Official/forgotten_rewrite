@@ -14,6 +14,7 @@ var slash_sfx = preload("res://assets/sfx/Slash_swing.ogg")
 var envy_sfx = preload("res://assets/sfx/Noli_stab.mp3")
 
 var slash_hit = preload("res://assets/sfx/Yixi_Hit.mp3")
+var envy_hit = preload("res://assets/sfx/envy_hit.ogg")
 
 var _dash_active := false
 #var _dash_timer := 0.0
@@ -30,7 +31,7 @@ func _activate_ability(ability: String) -> void:
 			var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
 			spawn_pos.y -= 0.9
 			$"../..".add_hitbox(
-				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0),slash_hit, $".."
+				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0), slash_hit, $".."
 			)
 			await get_tree().create_timer(0.05).timeout
 			
@@ -43,7 +44,7 @@ func _activate_ability(ability: String) -> void:
 			var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
 			spawn_pos.y -= 0.9
 			$"../..".add_hitbox(
-				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0), $".."
+				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0), envy_hit, $".."
 			)
 			await get_tree().create_timer(0.05).timeout
 			
@@ -264,7 +265,7 @@ func _activate_ability(ability: String) -> void:
 			var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
 			spawn_pos.y -= 0.9
 			$"../..".add_hitbox(
-				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0), $".."
+				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0), slash_hit, $".."
 			)
 			await get_tree().create_timer(0.05).timeout
 		
