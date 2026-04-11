@@ -7,7 +7,7 @@ const SPRINT_SPEED = 9.0
 const MOUSE_SENSITIVITY = 0.003
 
 var malice = 1
-var is_Killer = true
+var is_Killer = false
 
 var current_speed = WALK_SPEED
 
@@ -16,8 +16,12 @@ var current_speed = WALK_SPEED
 @onready var Ability_Component = $Ability_Component
 
 var usingAbility = false
-var equipped_survivor = "swordman"
+var equipped_survivor = "nyx"
 var equipped_killer = "yixi"
+
+var crouching = false
+var oath = 0
+var max_oath = 3
 
 var stunned = false
 

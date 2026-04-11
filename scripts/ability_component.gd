@@ -16,6 +16,8 @@ var envy_sfx = preload("res://assets/sfx/Noli_stab.mp3")
 var slash_hit = preload("res://assets/sfx/Yixi_Hit.mp3")
 var envy_hit = preload("res://assets/sfx/envy_hit.ogg")
 
+var nyx_stab = preload("res://assets/sfx/Dagger_Success.mp3")
+
 var _dash_active := false
 #var _dash_timer := 0.0
 #var _dash_speed := 0.0
@@ -202,8 +204,7 @@ func _activate_ability(ability: String) -> void:
 			$"..".velocity.x = forward.x * dash_speed
 			$"..".velocity.z = forward.z * dash_speed
 			$"..".move_and_slide()
-
-			hit_flag.append($"..".global_position)  
+			  
 			$"../..".add_hitbox(
 				$"..".hitboxes,
 				spawn_pos,
@@ -222,6 +223,7 @@ func _activate_ability(ability: String) -> void:
 		
 	elif ability == "sword":
 		var hit_flag: Array = []
+		$"..".current_speed = $"..".WALK_SPEED / 2
 		for i in range(5):
 			var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
 			spawn_pos.y -= 0.9
@@ -229,6 +231,8 @@ func _activate_ability(ability: String) -> void:
 				$"..".hitboxes, spawn_pos, hit_flag, 25, "killer", Vector3(1.0,1.0,1.0), $".."
 			)
 			await get_tree().create_timer(0.05).timeout
+			
+		$"..".current_speed = $"..".WALK_SPEED
 			
 	elif ability == "chicken":
 		if $"..".health < $"..".maxhealth:
@@ -268,6 +272,86 @@ func _activate_ability(ability: String) -> void:
 				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0), slash_hit, $".."
 			)
 			await get_tree().create_timer(0.05).timeout
+			
+	elif ability == "nyx_stab":
+		if $"..".crouching == false:
+			var hit_flag: Array = []
+				
+			var forward = -$"..".transform.basis.z
+			forward.y = 0
+			forward = forward.normalized()
+			var dash_speed := 12.0 
+			var dash_duration := 0.2
+			var elapsed := 0.0
+			
+			$"..".current_speed = 0
+				
+			await get_tree().create_timer(0.3).timeout
+				
+			$"../SFX".stream = nyx_stab
+			$"../SFX".play()
+			
+			while elapsed < dash_duration:
+				var delta = get_physics_process_delta_time()
+				elapsed += delta
+				$"..".velocity.x = forward.x * dash_speed
+				$"..".velocity.z = forward.z * dash_speed
+				$"..".move_and_slide()
+				await get_tree().physics_frame
+				
+			for i in range(9):
+				var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
+				spawn_pos.y -= 0.9
+				$"../..".add_hitbox(
+					$"..".hitboxes, spawn_pos, hit_flag, 25, "killer", Vector3(1.0,1.0,1.0), null, $".."
+				)
+				await get_tree().create_timer(0.05).timeout
+		else:
+			var hit_flag: Array = []
+				
+			var forward = -$"..".transform.basis.z
+			forward.y = 0
+			forward = forward.normalized()
+			var dash_speed := 12.0 
+			var dash_duration := 0.5
+			var elapsed := 0.0
+			
+			var hit_interval := 0.1  
+			var hit_timer := 0.0
+			
+			$"..".current_speed = 0
+				
+			await get_tree().create_timer(0.3).timeout
+				
+			$"../SFX".stream = nyx_stab
+			$"../SFX".play()
+			
+			while elapsed < dash_duration:
+				var delta = get_physics_process_delta_time()
+				elapsed += delta
+				hit_timer += delta
+				
+				$"..".velocity.x = forward.x * dash_speed
+				$"..".velocity.z = forward.z * dash_speed
+				$"..".move_and_slide()
+				
+				if hit_timer >= hit_interval:
+					hit_timer = 0.0
+					var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
+					spawn_pos.y -= 0.9
+					$"../..".add_hitbox(
+						$"..".hitboxes, spawn_pos, hit_flag, 25, "killer", Vector3(1.0,1.0,1.0), null, $".."
+					)
+				
+				await get_tree().physics_frame
+				
+				
+		$"..".current_speed = $"..".WALK_SPEED
+			
+	elif ability == "crouch":
+		$"..".crouching = not $"..".crouching
+		$"..".current_speed = $"..".WALK_SPEED / 2
+		$"..".usingAbility = false 
 		
 	else:
 		print(ability)

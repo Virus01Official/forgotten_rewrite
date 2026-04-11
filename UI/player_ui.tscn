@@ -77,14 +77,6 @@ offset_top = 1.0
 offset_right = 1155.0
 offset_bottom = 650.0
 
-[node name="Label" type="Label" parent="GameStuff/Notifications" unique_id=973034805]
-visible = false
-layout_mode = 2
-text = "I don't fucking know: +35 coins +38 EXP"
-label_settings = SubResource("LabelSettings_c8xti")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Health" type="ProgressBar" parent="GameStuff" unique_id=1203356740]
 layout_mode = 0
 offset_left = 858.0

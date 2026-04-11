@@ -9,8 +9,8 @@
 	"sprint_speed": 9.0
   },
   "music": {
-	"lms": "res://assets/music/vanity.mp3",
-	"chase": "res://assets/music/Chase.mp3"
+	"lms": "",
+	"chase": ""
   },
   "voicelines": {
 	"intro": [],

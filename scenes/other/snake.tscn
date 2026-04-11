@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bg2chmdsjyk0v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pjmmk"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Snake" type="Node2D" unique_id=2082571]
+
+[node name="Panel" type="Panel" parent="." unique_id=798834045]
+offset_right = 1152.0
+offset_bottom = 650.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pjmmk")
