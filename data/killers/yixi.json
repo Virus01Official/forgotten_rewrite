@@ -9,7 +9,7 @@
 	"sprint_speed": 9.0
   },
   "music": {
-	"lms": "",
+	"lms": "res://assets/music/lms_bunny.mp3",
 	"chase": ""
   },
   "voicelines": {

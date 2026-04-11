@@ -1,6 +1,9 @@
 extends Node
 
-var intermission_started := false
+var intermission_started = false
+
+var in_round = true
+var lms_started = false
 
 func add_hitbox(hitbox, pos, hit_flag: Array, damage, Hittarget: String, size: Vector3, hitsfx, source_player = null) -> void:
 	var instance = hitbox.instantiate()
@@ -39,6 +42,14 @@ func _process(_delta: float) -> void:
 		for player in get_players():
 			player.get_node("player_ui/SpectatorStuff/Label").text = \
 				"Intermission: " + str(snapped($Intermission.time_left, 1.0))
+				
+	if in_round and not lms_started:
+		if get_player_count() > 1:
+			for player in get_players():
+				if player.is_Killer:
+					lms_started = true
+					start_lms(player.equipped_killer)
+			
 
 func get_player_count() -> int:
 	return get_tree().get_nodes_in_group("players").size()
@@ -69,9 +80,27 @@ func assign_model(_player):
 	pass
 
 func start_lms(killer):
-	$LMS.stream = get_lms(killer)
-	AudioServer.set_bus_volume_db(1, 0)
-	$LMS.play()
+	var stream_path = get_lms(killer)
+	if stream_path == "" or not ResourceLoader.exists(stream_path):
+		push_warning("No LMS music found for killer: " + killer)
+		return
+	ResourceLoader.load_threaded_request(stream_path)
+	_await_lms_load(stream_path)
+
+func _await_lms_load(stream_path: String):
+	while true:
+		var status = ResourceLoader.load_threaded_get_status(stream_path)
+		if status == ResourceLoader.THREAD_LOAD_LOADED:
+			var stream = ResourceLoader.load_threaded_get(stream_path)
+			$LMS.stream = stream
+			AudioServer.set_bus_volume_db(1, 0)
+			$LMS.play()
+			print("LMS playing: ", $LMS.playing)
+			return
+		elif status == ResourceLoader.THREAD_LOAD_FAILED:
+			push_warning("Failed to load LMS music: " + stream_path)
+			return
+		await get_tree().process_frame
 
 func get_lms(killer: String):
 	var killer_data = CharData.get_killer(killer)

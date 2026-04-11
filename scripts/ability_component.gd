@@ -352,23 +352,72 @@ func _activate_ability(ability: String) -> void:
 	elif ability == "crouch":
 		$"..".crouching = not $"..".crouching
 		$"..".current_speed = $"..".WALK_SPEED / 2
-		$"..".apply_effect("invisibility", 1)
+		$"..".apply_effect("invisibility", 2)
 		$"..".usingAbility = false 
 		
 	elif ability == "yixi_grab":
 		$"..".current_speed = 0
 		
+		var grabbed_ref: Array = []
 		var hit_flag: Array = []
 		
 		var spawn_pos = $"..".global_position
 		spawn_pos.y -= 0.9
-		$"../..".add_hitbox(
-			$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(2.0,1.0,2.0), slash_hit, $".."
-		)
-		await get_tree().create_timer(0.05).timeout
 		
+		await get_tree().create_timer(0.3).timeout
+		
+		var instance = $"..".hitboxes.instantiate()
+		instance.hit_flag = hit_flag
+		instance.hit_killer = false
+		instance.damage = 10
+		instance.hitsfx = slash_hit
+		instance.scale = Vector3(2.0, 1.0, 2.0)
+		instance.og_plr = $".."
+		
+		instance.body_entered.connect(func(body):
+			if grabbed_ref.is_empty() and "isKiller" in body and not body.isKiller:
+				grabbed_ref.append(body)
+		)
+		
+		$"../..".get_node("Hitboxes").add_child(instance)
+		instance.global_position = spawn_pos
+		instance.global_rotation = $"..".global_rotation
+		
+		await get_tree().physics_frame
+		await get_tree().physics_frame
+		await get_tree().physics_frame
+		instance.queue_free()
+		
+		if not grabbed_ref.is_empty():
+			var grabbed_player = grabbed_ref[0]
+			
+			if grabbed_player.health > 0:
+				var original_speed = grabbed_player.current_speed
+				grabbed_player.current_speed = 0
+				
+				for i in range(6):
+					if not is_instance_valid(grabbed_player) or grabbed_player.health <= 0:
+						break
+					var tick_flag: Array = []
+					var tick_pos = grabbed_player.global_position
+					tick_pos.y -= 0.9
+					$"../..".add_hitbox(
+						$"..".hitboxes, tick_pos, tick_flag, 5, "survivor",
+						Vector3(1.0, 1.0, 1.0), slash_hit, $".."
+					)
+					await get_tree().create_timer(0.3).timeout
+				
+				if is_instance_valid(grabbed_player):
+					grabbed_player.current_speed = original_speed
+					var throw_dir = -$"..".transform.basis.z
+					throw_dir.y = 0.4
+					throw_dir = throw_dir.normalized()
+					grabbed_player.velocity = throw_dir * 18.0
+					
+		
+		await get_tree().create_timer(2.5).timeout
 		$"..".current_speed = $"..".WALK_SPEED
-		$"..".usingAbility = false 
+		$"..".usingAbility = false
 		
 	elif ability == "ritual":
 		print("placing ritual")
