@@ -313,7 +313,7 @@ func _activate_ability(ability: String) -> void:
 			forward.y = 0
 			forward = forward.normalized()
 			var dash_speed := 12.0 
-			var dash_duration := 0.5
+			var dash_duration := 0.7
 			var elapsed := 0.0
 			
 			var hit_interval := 0.1  

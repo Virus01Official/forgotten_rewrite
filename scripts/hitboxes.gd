@@ -14,7 +14,10 @@ func _on_body_entered(body: Node3D) -> void:
 	if "isKiller" in body and not body.isKiller and not hit_killer:
 		if body.health > 0:
 			hit_flag.append(true) 
-			body.health -= damage
+			if body.weakness > 0:
+				body.health -= damage * body.weakness
+			else:
+				body.health -= damage
 			_turn_green()
 			if og_plr:
 				og_plr.get_node("SFX").stream = hitsfx
