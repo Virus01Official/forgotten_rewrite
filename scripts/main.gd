@@ -2,7 +2,7 @@ extends Node
 
 var intermission_started := false
 
-func add_hitbox(hitbox, pos, hit_flag: Array, damage, Hittarget: String, size: Vector3, source_player = null) -> void:
+func add_hitbox(hitbox, pos, hit_flag: Array, damage, Hittarget: String, size: Vector3, hitsfx, source_player = null) -> void:
 	var instance = hitbox.instantiate()
 	instance.hit_flag = hit_flag
 	
@@ -12,6 +12,7 @@ func add_hitbox(hitbox, pos, hit_flag: Array, damage, Hittarget: String, size: V
 		instance.hit_killer = true
 		
 	instance.damage = damage
+	instance.hitsfx = hitsfx
 	
 	instance.scale = size
 	
@@ -20,6 +21,7 @@ func add_hitbox(hitbox, pos, hit_flag: Array, damage, Hittarget: String, size: V
 	
 	if source_player:
 		instance.global_rotation = source_player.global_rotation
+		instance.og_plr = source_player
 	
 	await get_tree().create_timer(0.5).timeout
 	instance.queue_free()

@@ -14,3 +14,5 @@ shape = SubResource("CapsuleShape3D_vifff")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=781743329]
 mesh = SubResource("CapsuleMesh_vifff")
+
+[node name="SFX" type="AudioStreamPlayer" parent="." unique_id=239948437]

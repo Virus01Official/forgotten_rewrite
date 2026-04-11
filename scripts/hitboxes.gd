@@ -3,6 +3,8 @@ extends Area3D
 var hit_flag: Array = []
 var hit_killer = false
 var damage = 25
+var hitsfx = null
+var og_plr = null
 
 func _on_body_entered(body: Node3D) -> void:
 	if hit_flag.size() > 0:
@@ -13,6 +15,9 @@ func _on_body_entered(body: Node3D) -> void:
 			hit_flag.append(true) 
 			body.health -= damage
 			_turn_green()
+			if og_plr:
+				og_plr.get_node("SFX").stream = hitsfx
+				og_plr.get_node("SFX").play()
 	elif "isKiller" in body and body.isKiller and hit_killer:
 		if body.health > 0:
 			hit_flag.append(true) 
