@@ -1,0 +1,44 @@
+{
+  "id": "yixi",
+  "display_name": "YiXi",
+  "type": "killer",
+  "stats": {
+	"health": 1000,
+	"stamina": 110,
+	"walk_speed": 5.0,
+	"sprint_speed": 9.0
+  },
+  "music": {
+	"lms": "res://assets/music/vanity.mp3",
+	"chase": "res://assets/music/Chase.mp3"
+  },
+  "voicelines": {
+	"intro": [],
+	"kill": [],
+	"victory": [],
+	"stun": []
+  },
+  "requirements": {
+	"survivor_type": null
+  },
+  "abilities": [
+	{
+	  "id": "ability1",
+	  "name": "Void Grasp",
+	  "icon": "res://assets/textures/abilityTemplate.png",
+	  "cooldown": 15.0,
+	  "type": "mouse_attack",
+	  "damage": 50
+	},
+	{
+	  "id": "ability2",
+	  "name": "Void Dash",
+	  "icon": "res://assets/textures/abilityTemplate.png",
+	  "cooldown": 5.0,
+	  "type": "void_dash",
+	  "damage": 40,
+	  "speed": 30.0,
+	  "duration": 1.0
+	}
+  ]
+}
