@@ -4,10 +4,15 @@
 [ext_resource type="Script" uid="uid://drb8j8f1rc4nl" path="res://scripts/ability_component.gd" id="2_g2els"]
 [ext_resource type="PackedScene" uid="uid://qo6absgsr8yf" path="res://scenes/other/hitboxes.tscn" id="2_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://bp0hs4qgh4lf" path="res://UI/player_ui.tscn" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://cgf664e14d6fb" path="res://scripts/effect_component.gd" id="5_qlg0r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qlg0r"]
+transparency = 1
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3vyb7"]
+material = SubResource("StandardMaterial3D_qlg0r")
 
 [node name="player" type="CharacterBody3D" unique_id=633314722 groups=["players"]]
 script = ExtResource("1_3vyb7")
@@ -41,3 +46,6 @@ collide_with_areas = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6779641, -0.24250025)
 
 [node name="player_ui" parent="." unique_id=1532252855 instance=ExtResource("4_dqkch")]
+
+[node name="EffectComponent" type="Node" parent="." unique_id=128819240]
+script = ExtResource("5_qlg0r")

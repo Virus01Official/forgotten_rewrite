@@ -325,6 +325,7 @@ func _activate_ability(ability: String) -> void:
 				
 			$"../SFX".stream = nyx_stab
 			$"../SFX".play()
+			$"..".disable_effect("invisibility")
 			
 			while elapsed < dash_duration:
 				var delta = get_physics_process_delta_time()
@@ -351,6 +352,7 @@ func _activate_ability(ability: String) -> void:
 	elif ability == "crouch":
 		$"..".crouching = not $"..".crouching
 		$"..".current_speed = $"..".WALK_SPEED / 2
+		$"..".apply_effect("invisibility", 1)
 		$"..".usingAbility = false 
 		
 	else:

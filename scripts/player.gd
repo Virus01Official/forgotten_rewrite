@@ -14,10 +14,11 @@ var current_speed = WALK_SPEED
 @onready var camera: Camera3D = $Camera3D
 @onready var first_person_cam: Camera3D = $FirstPersonCam
 @onready var Ability_Component = $Ability_Component
+@onready var Effect_Component = $EffectComponent
 
 var usingAbility = false
 var equipped_survivor = "nyx"
-var equipped_killer = "yixi"
+var equipped_killer = "envy"
 
 var crouching = false
 var oath = 0
@@ -250,6 +251,12 @@ func _input(event: InputEvent) -> void:
 		pitch = clamp(pitch, deg_to_rad(-80), deg_to_rad(80))
 		camera.rotation.x = pitch
 		first_person_cam.rotation.x = pitch
+
+func apply_effect(effect, level):
+	Effect_Component.activate_effect(effect, level)
+
+func disable_effect(effect):
+	Effect_Component.deactivate_effect(effect)
 
 func _interact_generator(_collider) -> void:
 	print("gen")
