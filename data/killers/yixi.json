@@ -23,10 +23,18 @@
   },
   "abilities": [
 	{
+	  "id": "primary",
+	  "name": "Slash",
+	  "icon": "res://assets/textures/abilityTemplate.png",
+	  "cooldown": 2.0,
+	  "type": "slash",
+	  "damage": 20
+	},
+	{
 	  "id": "ability1",
 	  "name": "Behead",
 	  "icon": "res://assets/textures/abilityTemplate.png",
-	  "cooldown": 0.0,
+	  "cooldown": 15.0,
 	  "type": "behead",
 	  "damage": 25
 	},

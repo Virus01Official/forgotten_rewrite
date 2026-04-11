@@ -21,6 +21,7 @@ var equipped_killer = "yixi"
 
 var stunned = false
 
+var equipped_attack = {}
 var equipped_ability1 = {}
 var equipped_ability2 = {}
 var equipped_ability3 = {}
@@ -88,6 +89,7 @@ func _start_cooldown(action: String, duration: float) -> void:
 
 func _refresh_abilities() -> void:
 	if is_Killer:
+		equipped_attack = Ability_Component.get_killer_ability("primary", equipped_killer)
 		equipped_ability1 = Ability_Component.get_killer_ability("ability1", equipped_killer)
 		equipped_ability2 = Ability_Component.get_killer_ability("ability2", equipped_killer)
 		if Ability_Component.has_ability("ability3", equipped_killer):
@@ -183,10 +185,13 @@ func _physics_process(delta: float) -> void:
 		else:
 			camera.current = true
 
-	if Input.is_action_just_pressed("Attack") and not usingAbility and not _is_on_cooldown("Attack") and is_Killer:
-		_start_cooldown("Attack", COOLDOWN_ATTACK)
+	if Input.is_action_just_pressed("Attack") and not usingAbility and not _is_on_cooldown(equipped_attack.get("name", "Attack")) and is_Killer:
+		var ability_type = equipped_attack.get("type", "")
+		var ability_name = equipped_attack.get("name", "Attack")
+		var cooldown_duration = equipped_attack.get("cooldown", COOLDOWN_ATTACK)
+		Ability_Component._activate_ability(ability_type)
+		_start_cooldown(ability_name, cooldown_duration)
 		usingAbility = true
-		Ability_Component._activate_ability("slash")
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()
 		

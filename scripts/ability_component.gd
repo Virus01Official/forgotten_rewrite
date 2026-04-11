@@ -10,6 +10,9 @@ var nothingSFX = preload("res://assets/sfx/do_nothing.mp3")
 var explodeSFX = preload("res://assets/sfx/test.ogg")
 var gunDestroyed = false
 
+var slash_sfx = preload("res://assets/sfx/Slash_swing.ogg")
+var envy_sfx = preload("res://assets/sfx/Noli_stab.mp3")
+
 var _dash_active := false
 #var _dash_timer := 0.0
 #var _dash_speed := 0.0
@@ -18,6 +21,22 @@ var _dash_active := false
 func _activate_ability(ability: String) -> void:
 	if ability == "slash":
 		var hit_flag: Array = []
+		$"../SFX".stream = slash_sfx
+		$"../SFX".play()
+		await get_tree().create_timer(0.3).timeout
+		for i in range(5):
+			var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
+			spawn_pos.y -= 0.9
+			$"../..".add_hitbox(
+				$"..".hitboxes, spawn_pos, hit_flag, 25, "survivor", Vector3(1.0,1.0,1.0), $".."
+			)
+			await get_tree().create_timer(0.05).timeout
+			
+	elif ability == "envy_slash":
+		var hit_flag: Array = []
+		$"../SFX".stream = envy_sfx
+		$"../SFX".play()
+		await get_tree().create_timer(0.3).timeout
 		for i in range(5):
 			var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
 			spawn_pos.y -= 0.9
@@ -225,6 +244,11 @@ func _activate_ability(ability: String) -> void:
 		var dash_speed := 18.0
 		var dash_duration := 0.15
 		var elapsed := 0.0
+		
+		$"../SFX".stream = slash_sfx
+		$"../SFX".play()
+		
+		await get_tree().create_timer(0.3).timeout
 		
 		while elapsed < dash_duration:
 			var delta = get_physics_process_delta_time()

@@ -23,6 +23,14 @@
   },
   "abilities": [
 	{
+	  "id": "primary",
+	  "name": "Stab",
+	  "icon": "res://assets/textures/abilityTemplate.png",
+	  "cooldown": 2.0,
+	  "type": "envy_slash",
+	  "damage": 20
+	},
+	{
 	  "id": "ability1",
 	  "name": "Void Grasp",
 	  "icon": "res://assets/textures/abilityTemplate.png",
