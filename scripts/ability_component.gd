@@ -158,18 +158,24 @@ func _activate_ability(ability: String) -> void:
 		var ability_data = get_killer_ability("ability2", $"..".equipped_killer)
 		var dash_speed: float = ability_data.get("speed", 30.0)
 		var dash_damage: int = ability_data.get("damage", 40)
+		const MAX_DASH_TIME := 3.0
+		var elapsed := 0.0
 
 		_dash_active = true
 		$"..".current_speed = 0
 
 		var hit_flag: Array = []  
 
-		while Input.is_action_pressed("Ability2"):
-			var _delta = get_physics_process_delta_time()
+		while Input.is_action_pressed("Ability2") and elapsed < MAX_DASH_TIME:
+			var delta = get_physics_process_delta_time()
+			elapsed += delta
 
 			var forward = -$"..".transform.basis.z
 			forward.y = 0
 			forward = forward.normalized()
+			
+			var spawn_pos = $"..".global_position + -$"..".transform.basis.z * 1.0
+			spawn_pos.y -= 0.9
 
 			$"..".velocity.x = forward.x * dash_speed
 			$"..".velocity.z = forward.z * dash_speed
@@ -178,7 +184,7 @@ func _activate_ability(ability: String) -> void:
 			hit_flag.append($"..".global_position)  
 			$"../..".add_hitbox(
 				$"..".hitboxes,
-				$"..".global_position,
+				spawn_pos,
 				hit_flag,          
 				dash_damage,
 				"survivor",
@@ -201,6 +207,14 @@ func _activate_ability(ability: String) -> void:
 				$"..".hitboxes, spawn_pos, hit_flag, 25, "killer", Vector3(1.0,1.0,1.0), $".."
 			)
 			await get_tree().create_timer(0.05).timeout
+			
+	elif ability == "chicken":
+		if $"..".health < $"..".maxhealth:
+			$"..".health = min($"..".health + 50, $"..".maxhealth)
+			print("used chicken")
+		else:
+			print("Full HP")
+		$"..".usingAbility = false 
 		
 	else:
 		print(ability)

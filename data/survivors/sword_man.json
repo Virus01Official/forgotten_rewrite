@@ -13,7 +13,7 @@
 	  "id": "ability1",
 	  "name": "Sword",
 	  "icon": "res://assets/textures/abilityTemplate.png",
-	  "cooldown": 20,
+	  "cooldown": 0.0,
 	  "type": "sword",
 	  "description": "Swordman slashes his sword stunning the killer"
 	},
@@ -21,10 +21,10 @@
 	  "id": "ability2",
 	  "name": "Chicken",
 	  "icon": "res://assets/textures/abilityTemplate.png",
-	  "cooldown": 60.0,
-	  "type": "Chicken",
+	  "cooldown": 0.0,
+	  "type": "chicken",
 	  "heal": 50,
-      "uses": 2,
+	  "uses": 2,
 	  "description": "swordman eats his chicken, healing 50 HP"
 	}
   ]

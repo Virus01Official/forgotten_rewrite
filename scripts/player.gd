@@ -16,7 +16,7 @@ var current_speed = WALK_SPEED
 @onready var Ability_Component = $Ability_Component
 
 var usingAbility = false
-var equipped_survivor = "chance"
+var equipped_survivor = "swordman"
 var equipped_killer = "envy"
 
 var stunned = false
@@ -38,6 +38,8 @@ var MAX_STAMINA = 100.0
 const STAMINA_DRAIN = 25.0   
 const STAMINA_RECOVER = 15.0 
 const STAMINA_RECOVER_EXHAUSTED = 5 
+
+var ability_uses := {}
 
 var stamina: float = MAX_STAMINA
 var is_sprinting: bool = false
@@ -91,6 +93,11 @@ func _refresh_abilities() -> void:
 			equipped_ability3 = Ability_Component.get_killer_ability("ability3", equipped_killer)
 		if Ability_Component.has_ability("ability4", equipped_killer):
 			equipped_ability4 = Ability_Component.get_killer_ability("ability4", equipped_killer)
+			
+		ability_uses.clear()
+		for ab in [equipped_ability1, equipped_ability2, equipped_ability3, equipped_ability4]:
+			if ab.has("uses") and ab.has("name"):
+				ability_uses[ab.get("name")] = ab.get("uses")
 	else:
 		equipped_ability1 = Ability_Component.get_ability_survivor("ability1", equipped_survivor)
 		equipped_ability2 = Ability_Component.get_ability_survivor("ability2", equipped_survivor)
@@ -98,6 +105,10 @@ func _refresh_abilities() -> void:
 			equipped_ability3 = Ability_Component.get_ability_survivor("ability3", equipped_survivor)
 		if Ability_Component.has_ability("ability4", equipped_survivor):
 			equipped_ability4 = Ability_Component.get_ability_survivor("ability4", equipped_survivor)
+		ability_uses.clear()
+		for ab in [equipped_ability1, equipped_ability2, equipped_ability3, equipped_ability4]:
+			if ab.has("uses") and ab.has("name"):
+				ability_uses[ab.get("name")] = ab.get("uses")
 			
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -125,6 +136,13 @@ func _physics_process(delta: float) -> void:
 		abilityTimer_timeout()
 
 	if Input.is_action_just_pressed("Ability2") and not usingAbility and not _is_on_cooldown(equipped_ability2.get("name", "Ability2")):
+		if not _has_uses(equipped_ability2):
+			return
+			
+		if equipped_ability2.get("type", "") == "chicken" and health >= maxhealth:
+			return
+			
+		_consume_use(equipped_ability2)
 		var ability_type = equipped_ability2.get("type", "")
 		var ability_name = equipped_ability2.get("name", "Ability2")
 		var cooldown_duration = equipped_ability2.get("cooldown", COOLDOWN_ABILITY2)
@@ -199,6 +217,19 @@ func try_interact(collider: Area3D):
 		if collider.is_in_group(group):
 			interact_handlers[group].call(collider)
 			return
+
+func _has_uses(ability_data: Dictionary) -> bool:
+	if not ability_data.has("uses"):
+		return true 
+	var namer = ability_data.get("name", "")
+	return ability_uses.get(namer, 0) > 0
+
+func _consume_use(ability_data: Dictionary) -> void:
+	if not ability_data.has("uses"):
+		return
+	var namer = ability_data.get("name", "")
+	if ability_uses.has(namer):
+		ability_uses[namer] = max(0, ability_uses[namer] - 1)
 
 func _input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
