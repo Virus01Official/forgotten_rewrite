@@ -24,11 +24,11 @@
   "abilities": [
 	{
 	  "id": "ability1",
-	  "name": "Void Grasp",
+	  "name": "Behead",
 	  "icon": "res://assets/textures/abilityTemplate.png",
-	  "cooldown": 15.0,
-	  "type": "mouse_attack",
-	  "damage": 50
+	  "cooldown": 0.0,
+	  "type": "behead",
+	  "damage": 25
 	},
 	{
 	  "id": "ability2",

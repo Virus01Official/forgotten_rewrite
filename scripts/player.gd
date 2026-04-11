@@ -17,7 +17,7 @@ var current_speed = WALK_SPEED
 
 var usingAbility = false
 var equipped_survivor = "swordman"
-var equipped_killer = "envy"
+var equipped_killer = "yixi"
 
 var stunned = false
 
@@ -54,6 +54,7 @@ var tokens = 0
 
 var interact_handlers := {
 	"generator": _interact_generator,
+	"arcade": _interact_arcade,
 }
 
 const COOLDOWN_ABILITY1 = 15.0
@@ -242,6 +243,9 @@ func _input(event: InputEvent) -> void:
 		first_person_cam.rotation.x = pitch
 
 func _interact_generator(_collider) -> void:
+	print("gen")
+	
+func _interact_arcade(_collider) -> void:
 	print("gen")
 
 func abilityTimer_timeout():

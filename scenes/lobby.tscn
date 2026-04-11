@@ -17,6 +17,12 @@ glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_o1atq"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_5gu6x"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o1atq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5gu6x"]
+
 [node name="Lobby" type="Node3D" unique_id=941177251]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=224086015]
@@ -34,3 +40,17 @@ shape = SubResource("BoxShape3D_so6iy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D" unique_id=255123894]
 mesh = SubResource("BoxMesh_o1atq")
+
+[node name="Arcade" type="StaticBody3D" parent="." unique_id=1838670367]
+transform = Transform3D(3.233175, 0, 0, 0, 5.8788557, 0, 0, 0, 1, 0, 2.970337, -21.424582)
+
+[node name="Area3D" type="Area3D" parent="Arcade" unique_id=379343850 groups=["arcade"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcade/Area3D" unique_id=660280965]
+shape = SubResource("BoxShape3D_5gu6x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcade" unique_id=1777058420]
+shape = SubResource("BoxShape3D_o1atq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arcade/CollisionShape3D" unique_id=1695265321]
+mesh = SubResource("BoxMesh_5gu6x")
