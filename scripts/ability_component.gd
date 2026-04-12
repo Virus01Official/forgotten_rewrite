@@ -19,9 +19,6 @@ var envy_hit = preload("res://assets/sfx/envy_hit.ogg")
 var nyx_stab = preload("res://assets/sfx/Dagger_Success.mp3")
 
 var _dash_active := false
-#var _dash_timer := 0.0
-#var _dash_speed := 0.0
-#var _dash_tween: Tween
 
 func _activate_ability(ability: String) -> void:
 	if ability == "slash":
@@ -395,6 +392,8 @@ func _activate_ability(ability: String) -> void:
 				var original_speed = grabbed_player.current_speed
 				grabbed_player.current_speed = 0
 				
+				$"..".grant(25, 35, "Hit the grab")
+				
 				for i in range(6):
 					if not is_instance_valid(grabbed_player) or grabbed_player.health <= 0:
 						break
@@ -426,6 +425,12 @@ func _activate_ability(ability: String) -> void:
 		ritual_instance.global_position = $"..".global_position 
 		ritual_instance.activate($"..")
 		player.ritual_node = ritual_instance
+		
+	elif ability == "mass_infection":
+		print("THIS IS MASS INFECTION")
+		
+	elif ability == "entanglement":
+		print("feel my entanglement")
 		
 	else:
 		print(ability)

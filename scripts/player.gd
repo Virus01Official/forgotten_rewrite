@@ -8,7 +8,9 @@ const MOUSE_SENSITIVITY = 0.003
 
 var ritual_node: Node3D = null
 var malice = 1
-var is_Killer = false
+var is_Killer = true
+
+var exp = 0
 
 var current_speed = WALK_SPEED
 
@@ -266,7 +268,6 @@ func die() -> void:
 			global_position = respawn_pos
 			oath = 0
 			ritual_node = null
-			print("Wespawned via Witual! OwO nyaa~")
 			return
 	# normal death logic here (spectate, eliminate, etc.)
 	print("player ded for real ;-;")
@@ -279,6 +280,21 @@ func disable_effect(effect):
 
 func _interact_generator(_collider) -> void:
 	print("gen")
+	
+func grant(amountXP : int, amountCoins : int, text : String):
+	var notificationsText = preload("res://scenes/other/notifications_text.tscn")
+	var notifications = notificationsText.instantiate()
+	
+	exp += amountXP
+	coins += amountCoins
+	
+	notifications.text = text + ": +" + str(amountXP) + " Coins +" + str(amountXP) + " EXP"
+	
+	$player_ui/GameStuff/Notifications.add_child(notifications)
+	
+	await get_tree().create_timer(2).timeout
+	
+	notifications.queue_free()
 	
 func _interact_arcade(_collider) -> void:
 	print("gen")
