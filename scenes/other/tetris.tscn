@@ -2,6 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://diu4olylqsotv" path="res://assets/fonts/Roboto/static/Roboto-Bold.ttf" id="1_8li27"]
 [ext_resource type="Script" uid="uid://nk0sx8wqd7hv" path="res://scripts/tetris.gd" id="1_jbimy"]
+[ext_resource type="AudioStream" uid="uid://cn637qhjbqiwq" path="res://assets/music/tetris.mp3" id="3_b1ev3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pjmmk"]
 bg_color = Color(0, 0, 0, 1)
@@ -74,4 +75,5 @@ offset_bottom = 648.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_deo47")
 
 [node name="TetrisTheme" type="AudioStreamPlayer2D" parent="." unique_id=635564822]
+stream = ExtResource("3_b1ev3")
 bus = &"Tetris"
