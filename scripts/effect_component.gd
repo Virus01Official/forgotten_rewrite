@@ -15,7 +15,7 @@ func activate_effect(effect: String, level: int) -> void:
 				unique_mat.albedo_color.a = 0.5  
 				mesh_instance.set_surface_override_material(0, unique_mat)
 			else:
-				push_error("No material found on MeshInstance3D! (>_<)")
+				push_error("No material found on MeshInstance3D!")
 		elif level == 2:
 			var mesh_instance = player.get_node('CollisionShape3D/MeshInstance3D')
 			var material = mesh_instance.get_active_material(0)
@@ -26,7 +26,7 @@ func activate_effect(effect: String, level: int) -> void:
 				unique_mat.albedo_color.a = 0.75  
 				mesh_instance.set_surface_override_material(0, unique_mat)
 			else:
-				push_error("No material found on MeshInstance3D! (>_<)")
+				push_error("No material found on MeshInstance3D!")
 	else:
 		print(effect)
 
@@ -41,4 +41,4 @@ func deactivate_effect(effect: String):
 			unique_mat.albedo_color.a = 1.0 
 			mesh_instance.set_surface_override_material(0, unique_mat)
 		else:
-			push_error("No material found on MeshInstance3D! (>_<)")
+			push_error("No material found on MeshInstance3D!")

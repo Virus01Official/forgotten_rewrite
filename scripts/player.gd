@@ -6,8 +6,9 @@ const WALK_SPEED = 5.0
 const SPRINT_SPEED = 9.0
 const MOUSE_SENSITIVITY = 0.003
 
+var ritual_node: Node3D = null
 var malice = 1
-var is_Killer = true
+var is_Killer = false
 
 var current_speed = WALK_SPEED
 
@@ -201,6 +202,9 @@ func _physics_process(delta: float) -> void:
 		await get_tree().create_timer(0.5).timeout
 		abilityTimer_timeout()
 		
+	if health <= 0:
+		die()
+	
 	if is_sprinting:
 		current_speed = SPRINT_SPEED
 		stamina = max(stamina - STAMINA_DRAIN * delta, 0.0)
@@ -252,6 +256,20 @@ func _input(event: InputEvent) -> void:
 		pitch = clamp(pitch, deg_to_rad(-80), deg_to_rad(80))
 		camera.rotation.x = pitch
 		first_person_cam.rotation.x = pitch
+
+func die() -> void:
+	if oath >= max_oath and ritual_node != null and is_instance_valid(ritual_node):
+		var respawn_pos = ritual_node.global_position
+		var triggered = ritual_node.trigger_respawn()
+		if triggered:
+			health = 40
+			global_position = respawn_pos
+			oath = 0
+			ritual_node = null
+			print("Wespawned via Witual! OwO nyaa~")
+			return
+	# normal death logic here (spectate, eliminate, etc.)
+	print("player ded for real ;-;")
 
 func apply_effect(effect, level):
 	Effect_Component.activate_effect(effect, level)

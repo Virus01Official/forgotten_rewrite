@@ -420,7 +420,12 @@ func _activate_ability(ability: String) -> void:
 		$"..".usingAbility = false
 		
 	elif ability == "ritual":
-		print("placing ritual")
+		var ritual_scene = load("res://scenes/other/ritual.tscn")  
+		var ritual_instance = ritual_scene.instantiate()
+		$"../..".add_child(ritual_instance)
+		ritual_instance.global_position = $"..".global_position 
+		ritual_instance.activate($"..")
+		player.ritual_node = ritual_instance
 		
 	else:
 		print(ability)

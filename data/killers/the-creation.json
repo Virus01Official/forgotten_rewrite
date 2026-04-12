@@ -1,13 +1,13 @@
 {
-  "id": "yixi",
-  "display_name": "YiXi",
+  "id": "the_creation",
+  "display_name": "The Creation",
   "type": "killer",
   "stats": {
 	"health": 1000,
 	"stamina": 110,
 	"walk_speed": 5.0,
-	"sprint_speed": 9.0,
-	"price": 1500
+	"sprint_speed": 10.0,
+	"price": 1250
   },
   "music": {
 	"lms": "res://assets/music/lms_bunny.mp3",
@@ -33,19 +33,21 @@
 	},
 	{
 	  "id": "ability1",
-	  "name": "Behead",
+	  "name": "Mass Infection",
 	  "icon": "res://assets/textures/abilityTemplate.png",
 	  "cooldown": 15.0,
-	  "type": "behead",
-	  "damage": 25
+	  "type": "mass_infection",
+	  "damage": 45,
+      "effect": "poison",
+      "effect_level": 1
 	},
 	{
 	  "id": "ability2",
-	  "name": "Grab",
+	  "name": "Entanglement",
 	  "icon": "res://assets/textures/abilityTemplate.png",
 	  "cooldown": 32.0,
-	  "type": "yixi_grab",
-	  "damage": 50,
+	  "type": "entanglement",
+	  "damage": 10
 	}
   ]
 }
